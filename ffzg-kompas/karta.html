@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Karta zgrade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<link rel="preload" href="topo.svg" as="image" type="image/svg+xml">
+<link rel="icon" href="favicon.png" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ─────────────────────────────────────────────
+   Karta page
+   ───────────────────────────────────────────── */
+
+.lang-en { display: none; }
+[data-lang="en"] .lang-hr { display: none; }
+[data-lang="en"] .lang-en { display: revert; }
+
+/* ── anatomy card (tip-card styles copied from tips.html) ── */
+.tip-card {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--cat-color, var(--border));
+  overflow: hidden;
+  transition: border-color .15s, background .15s;
+}
+.tip-card:hover { border-color: var(--border); border-left-color: var(--cat-color, var(--border)); background: var(--bg4); }
+.tip-card.expanded { background: var(--bg3); }
+.tip-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer; user-select: none;
+}
+.tip-head .title {
+  font-size: 14px; font-weight: 700;
+  color: var(--text3); line-height: 1.4;
+  flex: 1; letter-spacing: 0.3px;
+}
+.tip-head .chev {
+  font-size: 14px; color: var(--text3);
+  border: 1px solid var(--border2);
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.tip-card:hover .chev { border-color: var(--border); }
+.tip-card.expanded .chev { background: var(--orange); border-color: var(--orange); color: var(--bg); }
+.tip-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .25s ease, padding .25s ease;
+  padding: 0 14px;
+  font-size: 13px; line-height: 1.85; color: var(--text2);
+  border-top: 0 solid var(--border3);
+}
+.tip-card.expanded .tip-body { max-height: 600px; padding: 14px 16px 18px; border-top-width: 1px; }
+
+/* ── room number anatomy diagram ── */
+.anatomy {
+  background: none;
+  border: none;
+  padding: 10px 0 10px 8px;
+  position: relative;
+}
+.anatomy-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  margin: 4px 0 28px;
+  user-select: none;
+}
+.anatomy-code .ch {
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  position: relative;
+  padding: 0 4px;
+}
+.anatomy-code .ch.dash { color: var(--muted); padding: 0 2px; }
+.anatomy-code .part-trakt { color: var(--green); }
+.anatomy-code .part-floor { color: var(--red); }
+.anatomy-code .part-room  { color: var(--cat-zivot); }
+.anatomy-code .part-sub   { color: var(--blue); }
+
+.anatomy-legend {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.anatomy-row {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: start;
+  gap: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text2);
+}
+.anatomy-row .mark { display: none; }
+.anatomy-row .glyph {
+  font-family: 'Courier Prime', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  color: currentColor;
+}
+.anatomy-row > div:last-child {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.anatomy-row > div:last-child span {
+  padding-left: 0;
+}
+.anatomy-row b {
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 110px;
+}
+.anatomy-row.trakt { color: var(--green); }
+.anatomy-row.floor { color: var(--red); }
+.anatomy-row.room  { color: var(--cat-zivot); }
+.anatomy-row.sub   { color: var(--blue); }
+
+@media (max-width: 520px) {
+  .anatomy-row {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 4px;
+  }
+  .anatomy-row > div:last-child {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .anatomy-row b {
+    min-width: unset;
+  }
+}
+
+/* search bar */
+.search-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+.search-wrap > i {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 15px; color: var(--muted); pointer-events: none;
+}
+.search-input {
+  width: 100%; box-sizing: border-box;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); font-family: inherit;
+  font-size: 14px; letter-spacing: 0.5px;
+  padding: 14px 40px 14px 40px;
+  outline: none;
+  transition: border-color .15s;
+}
+.search-input::placeholder { color: var(--text3); }
+.search-input:focus { border-color: var(--orange); }
+.search-clear {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 14px; padding: 2px;
+  display: none; transition: color .15s;
+}
+
+/* map placeholder */
+.map-placeholder {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  aspect-ratio: 5 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--muted);
+}
+
+</style>
+</head>
+<body>
+
+<div class="frame wide" id="frame">
+
+  <!-- nav -->
+  <div class="nav">
+    <a class="nav-logo" href="./">
+      <img src="compass.svg" width="23" height="23" alt="">
+      FFZG Kompas
+    </a>
+      <div class="nav-links">
+        <a href="karta" class="active" id="sub-map">Karta</a>
+        <a href="info" id="sub-info">Info</a>
+        <a href="tips" id="sub-tips">Savjeti</a>
+      </div>
+      <div class="nav-controls">
+      <button class="nav-btn" id="btn-hr" onclick="KompasApp.setLang('hr')">HR</button>
+      <button class="nav-btn" id="btn-en" onclick="KompasApp.setLang('en')">EN</button>
+      <div class="nav-sep"></div>
+      <button class="nav-btn" id="btn-theme" onclick="KompasApp.toggleTheme()" aria-label="Toggle theme">
+        <i class="ti ti-sun" id="theme-icon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- page head -->
+  <div class="pagehead" data-screen-label="02 Karta">
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+    <h1><span class="lang-hr">Karta zgrade</span><span class="lang-en">Building map</span></h1>
+    <div class="pagehead-sub"><span class="lang-hr">Jel Filozofski ima WC?</span><span class="lang-en">Does Filozofski have toilets?</span></div>
+  </div>
+
+  <!-- search + anatomy -->
+  <div class="section" style="border-bottom: 0; flex: 0; display: flex; flex-direction: column; gap: 8px;">
+    <div class="search-wrap" style="margin-bottom: 0;">
+      <i class="ti ti-search"></i>
+      <input class="search-input" type="search" placeholder="Pretraži prostorije…" autocomplete="off" disabled />
+      <button class="search-clear"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="tip-card" id="anatomy-card" style="border-left-width: 1px;">
+      <div class="tip-head" style="padding: 10px 14px;" onclick="const c=document.getElementById('anatomy-card'); c.classList.toggle('expanded'); this.querySelector('.chev i').className='ti '+(c.classList.contains('expanded')?'ti-minus':'ti-plus');">
+        <i class="ti ti-tag" style="font-size: 18px; color: var(--orange); flex-shrink: 0;"></i>
+        <span class="title"><span class="lang-hr">Što znače oznake na prostorijama? (npr. A212a)</span><span class="lang-en">How do classroom codes work? (e.g. A212a)</span></span>
+        <div class="chev"><i class="ti ti-plus"></i></div>
+      </div>
+      <div class="tip-body">
+        <div class="anatomy" style="margin-bottom: 4px;">
+          <div class="anatomy-code" aria-hidden="true">
+            <span class="ch part-trakt">A</span>
+            <span class="ch dash">–</span>
+            <span class="ch part-floor">2</span>
+            <span class="ch part-room">1</span><span class="ch part-room">2</span>
+            <span class="ch part-sub">a</span>
+          </div>
+          <div class="anatomy-legend">
+            <div class="anatomy-row trakt">
+              <div class="mark"></div>
+              <div class="glyph">A</div>
+              <div><b><span class="lang-hr">TRAKT </span><span class="lang-en">WING </span></b><span><span class="lang-hr">A, B, C, E, F (D su dvorane i uredi u prizemlju)</span><span class="lang-en">A, B, C, E, F (D are lecture halls and offices on the ground floor)</span></span></div>
+            </div>
+            <div class="anatomy-row floor">
+              <div class="mark"></div>
+              <div class="glyph">2</div>
+              <div><b><span class="lang-hr">KAT </span><span class="lang-en">FLOOR </span></b><span><span class="lang-hr">prva znamenka - 0, 1, 2 ili 3</span><span class="lang-en">first digit - 0, 1, 2 or 3</span></span></div>
+            </div>
+            <div class="anatomy-row room">
+              <div class="mark"></div>
+              <div class="glyph">12</div>
+              <div><b><span class="lang-hr">SOBA </span><span class="lang-en">ROOM </span></b><span><span class="lang-hr">redni broj prostorije na katu</span><span class="lang-en">room number on the floor</span></span></div>
+            </div>
+            <div class="anatomy-row sub">
+              <div class="mark"></div>
+              <div class="glyph">a</div>
+              <div><b><span class="lang-hr">POD-OZNAKA </span><span class="lang-en">SUB-LETTER </span></b><span><span class="lang-hr">a, b ili c ako je prostorija pregrađena u više manjih</span><span class="lang-en">a, b or c if the room was split into smaller ones</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- map placeholder -->
+  <div class="section">
+    <div class="map-placeholder">karta :^)</div>
+  </div>
+
+  <!-- footer (credits) -->
+  <div class="footer">
+    <div class="footer-credits">
+      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, osim onih koje nisu.</span>
+    </div>
+    <div class="footer-year">:^)</div>
+  </div>
+
+
+<script src="app.js"></script>
+<script>
+function applyLang (lang) {
+  document.documentElement.dataset.lang = lang;
+}
+</script>
+</body>
+</html>

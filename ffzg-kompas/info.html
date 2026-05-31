@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gdje pronaći info</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<link rel="preload" href="topo.svg" as="image" type="image/svg+xml">
+<link rel="icon" href="favicon.png" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ─────────────────────────────────────────────
+   Info page · Hubs + Systems
+   ───────────────────────────────────────────── */
+
+.section + .section { padding-top: 48px; }
+.section { border-bottom: 0; }
+
+/* ── lang toggle ── */
+.lang-en { display: none; }
+[data-lang="en"] .lang-hr { display: none; }
+[data-lang="en"] .lang-en { display: revert; }
+
+/* ── HUBS GRID ── */
+.hubs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+@media (min-width: 760px) {
+  .hubs-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+}
+
+.hub-card {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.hub-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hub-icon {
+  flex-shrink: 0;
+  display: flex; align-items: center;
+  color: var(--orange);
+}
+.hub-icon i { font-size: 28px; }
+.hub-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.2;
+}
+.hub-sub { display: none; }
+
+.hub-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.hub-good {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hub-good-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.hub-good-lbl::before { content: '// '; color: var(--border); }
+.hub-good ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hub-good li {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+}
+.hub-good li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+}
+
+.hub-meta {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 8px 14px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border2);
+}
+.hub-meta b {
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 700;
+  align-self: center;
+}
+.hub-meta span {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+.hub-meta a {
+  color: var(--text2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color .15s, border-color .15s;
+}
+.hub-meta a:hover {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
+.hub-meta a::after {
+  content: ' ↗';
+  font-size: 13px;
+  color: var(--muted);
+}
+.hub-meta a.map-link::after { content: none; }
+.hub-meta a.map-link i { font-size: 13px; }
+
+@media (max-width: 480px) {
+  .hub-card { padding: 16px 18px; }
+  .sys-card  { padding: 14px 16px; }
+  .hub-name  { font-size: 16px; letter-spacing: 1px; }
+}
+
+/* ── SYSTEMS GRID ── */
+.sys-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+@media (min-width: 560px) {
+  .sys-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 920px) {
+  .sys-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.sys-card {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .15s;
+  min-width: 0;
+}
+.sys-card:hover {
+  border-color: var(--orange);
+}
+
+.sys-head {
+  display: flex; align-items: center; gap: 12px;
+}
+.sys-icon {
+  flex-shrink: 0;
+  color: var(--orange);
+  display: flex; align-items: center;
+}
+.sys-icon i { font-size: 24px; }
+.sys-name {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.2;
+}
+.sys-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text3);
+  flex: 1;
+}
+.sys-link {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border2);
+}
+</style>
+</head>
+<body>
+
+<div class="frame wide" id="frame">
+
+  <!-- nav -->
+  <div class="nav">
+    <a class="nav-logo" href="./">
+      <img src="compass.svg" width="23" height="23" alt="">
+      FFZG Kompas
+    </a>
+    <div class="nav-links">
+      <a href="karta" id="sub-map">Karta</a>
+      <a href="info" class="active" id="sub-info">Info</a>
+      <a href="tips" id="sub-tips">Savjeti</a>
+    </div>
+    <div class="nav-controls">
+      <button class="nav-btn" id="btn-hr" onclick="KompasApp.setLang('hr')">HR</button>
+      <button class="nav-btn" id="btn-en" onclick="KompasApp.setLang('en')">EN</button>
+      <div class="nav-sep"></div>
+      <button class="nav-btn" id="btn-theme" onclick="KompasApp.toggleTheme()" aria-label="Toggle theme">
+        <i class="ti ti-sun" id="theme-icon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- page head -->
+  <div class="pagehead" data-screen-label="03 Info">
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+    <h1>
+      <span class="lang-hr">Gdje pronaći informacije</span>
+      <span class="lang-en">How to find information</span>
+    </h1>
+    <div class="pagehead-sub">
+      <span class="lang-hr">Imam pitanje. Kome da se javim, što da koristim?</span>
+      <span class="lang-en">I have a question. Who do I ask, what do I use?</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       HRVATSKI
+       ═══════════════════════════════════════════ -->
+  <div class="lang-hr">
+
+    <!-- SECTION 1: Kome se javiti -->
+    <div class="section">
+      <div class="sec-label">Kome se javiti</div>
+      <div class="hubs-grid">
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-info-circle"></i></div>
+            <div>
+              <div class="hub-name">Info centar</div>
+              <div class="hub-sub">Brze odgovore</div>
+            </div>
+          </header>
+          <div class="hub-desc">Prva postaja kad ne znaš kome se obratiti – vode ga studenti koji znaju svaki kutak faksa. A ako nemaju odgovor, znat će tko ga ima.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Korisno za</div>
+            <ul>
+              <li>Izdavanje studentske iskaznice (iksice)</li>
+              <li>Snalaženje po faksu – kome se javiti i gdje ići</li>
+              <li>Predaja i preuzimanje izgubljenih stvari</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Gdje</b><span><a href="#" class="map-link"><i class="ti ti-map-pin"></i> Odmah desno pored ulaza</a></span>
+            <b>Kontakt</b><span><a href="https://infocentar.ffzg.unizg.hr/kontakt/" target="_blank">Kontakt stranica</a></span>
+            <b>Web</b><span><a href="https://infocentar.ffzg.unizg.hr/" target="_blank">infocentar.ffzg.unizg.hr</a></span>
+            <b>Kada</b><span>Pon–pet · 9:00–14:00</span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-building"></i></div>
+            <div>
+              <div class="hub-name">Referada</div>
+              <div class="hub-sub">Studentska služba</div>
+            </div>
+          </header>
+          <div class="hub-desc">Studentska služba, ali svi je zovu referada. Tu rješavaš sve što je formalno vezano za studij – od potvrda i prijepisa do molbi i studentskih prava.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Korisno za</div>
+            <ul>
+              <li>Potvrde o studiranju, prijepis ocjena</li>
+              <li>Upis i ispis kolegija, mirovanje studija</li>
+              <li>Formalne molbe i studentska prava</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Gdje</b><span><a href="#" class="map-link"><i class="ti ti-map-pin"></i> Desno, do kraja hodnika pa desno</a></span>
+            <b>Kontakt</b><span><a href="https://web2020.ffzg.unizg.hr/studentska-sluzba/" target="_blank">Kontakt stranica</a></span>
+            <b>Web</b><span><a href="https://web2020.ffzg.unizg.hr/studentska-sluzba/" target="_blank">Studentska služba</a></span>
+            <b>Kada</b><span>Pon–pet · 10:00–11:00 i 12:00–14:00</span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-home"></i></div>
+            <div>
+              <div class="hub-name">FFZG – Glavna stranica</div>
+              <div class="hub-sub">Obavijesti, odsjeci, resursi</div>
+            </div>
+          </header>
+          <div class="hub-desc">Polazišna točka za sve službeno na faksu – obavijesti, rasporedi, kontakti ureda i stranice odsjeka. Sve je tu, samo treba malo kopat.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Korisno za</div>
+            <ul>
+              <li>Službene obavijesti i dokumenti</li>
+              <li>Raspored nastave i akademski kalendar</li>
+              <li>Kontakti svih ureda i službi</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Web</b><span><a href="https://www.ffzg.unizg.hr/" target="_blank">ffzg.unizg.hr</a></span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-bookmark"></i></div>
+            <div>
+              <div class="hub-name">Stranice tvog odsjeka</div>
+              <div class="hub-sub">Najvažniji bookmark</div>
+            </div>
+          </header>
+          <div class="hub-desc">Primarni izvor za sve specifično za tvoj smjer – obavijesti, ispitni rokovi, raspored nastave i kontakti profesora.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Korisno za</div>
+            <ul>
+              <li>Obavijesti o otkazivanjima nastave i promjenama termina</li>
+              <li>Ispitni rokovi</li>
+              <li>Informacije za brucoše</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Web</b><span><a href="https://web2020.ffzg.unizg.hr/ustroj/odsjeci/" target="_blank">Popis stranica odsjeka</a></span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-brand-whatsapp"></i></div>
+            <div>
+              <div class="hub-name">WhatsApp grupe</div>
+              <div class="hub-sub">Neslužbeni info network</div>
+            </div>
+          </header>
+          <div class="hub-desc">Kolege iz tvoje generacije i oni koji su već prošli kroz to – konkretni odgovori od stvarnih ljudi, bez čekanja na službeni odgovor.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Korisno za</div>
+            <ul>
+              <li>Konkretna pitanja u stvarnom vremenu</li>
+              <li>Razmjena materijala i skripti</li>
+              <li>Heads up o promjenama rasporeda i rokova</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Gdje</b><span>WhatsApp</span>
+            <b>Kontakt</b><span>Pitaj kolege za invite</span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-users"></i></div>
+            <div>
+              <div class="hub-name">Studentski mentori</div>
+              <div class="hub-sub">Stariji studenti = veterani</div>
+            </div>
+          </header>
+          <div class="hub-desc">Prijaviš se i dobiješ starijeg kolegu s odsjeka koji je već prošao kroz sve i može ti reći kako stvari zapravo funkcioniraju.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Korisno za</div>
+            <ul>
+              <li>Koje profesore izabrati ili izbjeći</li>
+              <li>Realna težina predmeta i ispita</li>
+              <li>Generalno „kako preživjeti faks"</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Gdje</b><span>Orijentacijski dan; inače Klub studenata</span>
+            <b>Kada</b><span>Najaktivniji u listopadu</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- SECTION 2: Sustavi -->
+    <div class="section">
+      <div class="sec-label">Sustavi koje ćeš koristiti</div>
+      <div class="sys-grid">
+
+        <a class="sys-card" href="https://www.isvu.hr/studomat" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-id"></i></div>
+            <div class="sys-name">Studomat (ISVU)</div>
+          </div>
+          <div class="sys-desc">Sve službeno o tvom studiju – upisi kolegija, prijave ispita, ocjene, indeks..</div>
+          <div class="sys-link"><span>Otvori</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://thetha.ffzg.hr/ECTS/" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-sign-right"></i></div>
+            <div class="sys-name">Theta</div>
+          </div>
+          <div class="sys-desc">ECTS informacijski paketi – popis obveznih i izbornih kolegija, literatura i preduvjeti za tvoj studij.</div>
+          <div class="sys-link"><span>Otvori</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://omega.ffzg.hr" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-school"></i></div>
+            <div class="sys-name">Omega (Moodle)</div>
+          </div>
+          <div class="sys-desc">Sve za nastavu na jednom mjestu – prezentacije, zadaće i obavijesti. Lozinku za kolegij dobivaš na prvom predavanju.</div>
+          <div class="sys-link"><span>Otvori</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://outlook.office.com" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-mail"></i></div>
+            <div class="sys-name">Microsoft 365 (@m.ffzg.hr)</div>
+          </div>
+          <div class="sys-desc">Tvoj službeni email + sve Microsoft 365 aplikacije besplatno. Sva komunikacija s profesorima ide ovim putem.</div>
+          <div class="sys-link"><span>Otvori</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://koha.ffzg.unizg.hr/" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-book"></i></div>
+            <div class="sys-name">Koha – katalog knjižnice</div>
+          </div>
+          <div class="sys-desc">Pretraga svih knjiga i članaka. Rezerviraj online, podigni s Iksicom.</div>
+          <div class="sys-link"><span>Otvori</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://molbe.ffzg.hr" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-file-text"></i></div>
+            <div class="sys-name">e-Molbe</div>
+          </div>
+          <div class="sys-desc">Elektronski sustav za predaju službenih molbi i zahtjeva – mirovanje, žalbe, prijepisi, promjene statusa.</div>
+          <div class="sys-link"><span>Otvori</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+      </div>
+    </div>
+
+  </div><!-- /lang-hr -->
+
+  <!-- ═══════════════════════════════════════════
+       ENGLISH
+       ═══════════════════════════════════════════ -->
+  <div class="lang-en">
+
+    <!-- SECTION 1: Who to ask -->
+    <div class="section">
+      <div class="sec-label">Who to ask</div>
+      <div class="hubs-grid">
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-info-circle"></i></div>
+            <div>
+              <div class="hub-name">Info centre</div>
+              <div class="hub-sub">Quick answers</div>
+            </div>
+          </header>
+          <div class="hub-desc">First stop when you don't know who to turn to – run by students who know every corner of the faculty. And if they don't have the answer, they'll know who does.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Good for</div>
+            <ul>
+              <li>Getting your student ID (iksica)</li>
+              <li>Finding your way around – who to talk to and where</li>
+              <li>Lost &amp; found</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Where</b><span><a href="#" class="map-link"><i class="ti ti-map-pin"></i> Just right of the entrance</a></span>
+            <b>Contact</b><span><a href="https://infocentar.ffzg.unizg.hr/kontakt/" target="_blank">Contact page</a></span>
+            <b>Web</b><span><a href="https://infocentar.ffzg.unizg.hr/" target="_blank">infocentar.ffzg.unizg.hr</a></span>
+            <b>When</b><span>Mon–Fri · 9:00–14:00</span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-building"></i></div>
+            <div>
+              <div class="hub-name">Referada</div>
+              <div class="hub-sub">Student Office</div>
+            </div>
+          </header>
+          <div class="hub-desc">The Student Office – but everyone calls it the referada. Handle everything formal about your studies here, from certificates and transcripts to requests and student rights.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Good for</div>
+            <ul>
+              <li>Enrollment certificates, transcripts</li>
+              <li>Adding/dropping courses, study leave</li>
+              <li>Formal requests and student rights</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Where</b><span><a href="#" class="map-link"><i class="ti ti-map-pin"></i> Right, end of hall, right again</a></span>
+            <b>Contact</b><span><a href="https://web2020.ffzg.unizg.hr/studentska-sluzba/" target="_blank">Contact page</a></span>
+            <b>Web</b><span><a href="https://web2020.ffzg.unizg.hr/studentska-sluzba/" target="_blank">Student Office</a></span>
+            <b>When</b><span>Mon–Fri · 10:00–11:00 & 12:00–14:00</span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-home"></i></div>
+            <div>
+              <div class="hub-name">FFZG – Main website</div>
+              <div class="hub-sub">News, departments, resources</div>
+            </div>
+          </header>
+          <div class="hub-desc">Starting point for everything official at the faculty – announcements, schedules, office contacts and department pages. It's all there, just takes a bit of digging.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Good for</div>
+            <ul>
+              <li>Official announcements and documents</li>
+              <li>Class schedules and academic calendar</li>
+              <li>Contacts for all offices and services</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Web</b><span><a href="https://www.ffzg.unizg.hr/" target="_blank">ffzg.unizg.hr</a></span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-building"></i></div>
+            <div>
+              <div class="hub-name">Your department page</div>
+              <div class="hub-sub">Most important bookmark</div>
+            </div>
+          </header>
+          <div class="hub-desc">Primary source for everything specific to your programme – announcements, exam dates, class schedules and professor contacts.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Good for</div>
+            <ul>
+              <li>Announcements on cancellations and changes</li>
+              <li>Exam dates</li>
+              <li>First-year information</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Web</b><span><a href="https://web2020.ffzg.unizg.hr/ustroj/odsjeci/" target="_blank">List of departments</a></span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-brand-whatsapp"></i></div>
+            <div>
+              <div class="hub-name">WhatsApp groups</div>
+              <div class="hub-sub">Unofficial info network</div>
+            </div>
+          </header>
+          <div class="hub-desc">Classmates from your cohort and those who've already been through it – concrete answers from real people, no waiting for an official response.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Good for</div>
+            <ul>
+              <li>Real-time concrete questions</li>
+              <li>Sharing materials and notes</li>
+              <li>Heads up on schedule and deadline changes</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Where</b><span>WhatsApp</span>
+            <b>Contact</b><span>Ask a classmate for an invite</span>
+          </div>
+        </article>
+
+        <article class="hub-card">
+          <header class="hub-head">
+            <div class="hub-icon"><i class="ti ti-users"></i></div>
+            <div>
+              <div class="hub-name">Student mentors</div>
+              <div class="hub-sub">Older students = veterans</div>
+            </div>
+          </header>
+          <div class="hub-desc">You sign up and get matched with an older student from your department who's already been through it all and can tell you how things actually work.</div>
+          <div class="hub-good">
+            <div class="hub-good-lbl">Good for</div>
+            <ul>
+              <li>Which professors to take or avoid</li>
+              <li>Real workload of courses and exams</li>
+              <li>General "how to survive uni"</li>
+            </ul>
+          </div>
+          <div class="hub-meta">
+            <b>Where</b><span>Orientation day; otherwise Klub studenata</span>
+            <b>When</b><span>Most active in October</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- SECTION 2: Systems -->
+    <div class="section">
+      <div class="sec-label">Systems you'll use</div>
+      <div class="sys-grid">
+
+        <a class="sys-card" href="https://www.isvu.hr/studomat" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-id"></i></div>
+            <div class="sys-name">Studomat (ISVU)</div>
+          </div>
+          <div class="sys-desc">Everything official – course enrollment, exam booking, grades, transcript..</div>
+          <div class="sys-link"><span>Open</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://thetha.ffzg.hr/ECTS/" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-sign-right"></i></div>
+            <div class="sys-name">Theta</div>
+          </div>
+          <div class="sys-desc">ECTS information packages – mandatory and elective courses, reading lists and prerequisites for your programme.</div>
+          <div class="sys-link"><span>Open</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://omega.ffzg.hr" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-school"></i></div>
+            <div class="sys-name">Omega (Moodle)</div>
+          </div>
+          <div class="sys-desc">Everything for your courses in one place – slides, assignments and announcements. You get the course password at the first lecture.</div>
+          <div class="sys-link"><span>Open</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://outlook.office.com" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-mail"></i></div>
+            <div class="sys-name">Microsoft 365 (@m.ffzg.hr)</div>
+          </div>
+          <div class="sys-desc">Your official email + all Microsoft 365 apps for free. All communication with professors goes through here.</div>
+          <div class="sys-link"><span>Open</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://koha.ffzg.unizg.hr/" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-book"></i></div>
+            <div class="sys-name">Koha – library catalogue</div>
+          </div>
+          <div class="sys-desc">Search all books and articles. Reserve online, pick up with student card.</div>
+          <div class="sys-link"><span>Open</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+        <a class="sys-card" href="https://molbe.ffzg.hr" target="_blank" rel="noopener">
+          <div class="sys-head">
+            <div class="sys-icon"><i class="ti ti-file-text"></i></div>
+            <div class="sys-name">e-Molbe</div>
+          </div>
+          <div class="sys-desc">Electronic system for submitting official requests – study leave, appeals, transcripts, status changes.</div>
+          <div class="sys-link"><span>Open</span><i class="ti ti-external-link"></i></div>
+        </a>
+
+      </div>
+    </div>
+
+  </div><!-- /lang-en -->
+
+  <!-- footer (credits) -->
+  <div class="footer">
+    <div class="footer-credits">
+      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, osim onih koje nisu.</span>
+    </div>
+    <div class="footer-year">:^)</div>
+  </div>
+
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+function applyLang(lang) {
+  document.documentElement.dataset.lang = lang;
+}
+</script>
+</body>
+</html>

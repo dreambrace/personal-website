@@ -1,0 +1,561 @@
+/* ─────────────────────────────────────────────
+   FFZG KOMPAS · shared data
+   ───────────────────────────────────────────── */
+
+window.KOMPAS_TIPS = [
+  { id: 'iksica-popusti', cat: 'zivot',
+    hr: { title: 'Iksica = popusti na kulturu i zabavu',
+          body: 'S Iksicom možeš dobiti popust na kazališne ulaznice, muzeje, kina i mnoga druga mjesta u gradu. Uvijek pitaj na blagajni – iznenadit ćeš se koliko mjesta sudjeluje.',
+          link: null },
+    en: { title: 'Student card = discounts on culture and entertainment',
+          body: 'Your student card gets you discounts at theatres, museums, cinemas and many other venues around the city. Always ask at the box office – you\'ll be surprised how many places participate.',
+          link: null } },
+
+  { id: 'vlak-besplatan', cat: 'novac',
+    hr: { title: 'Besplatan vlak po cijeloj Hrvatskoj – od 2025.',
+          body: 'Od 1. siječnja 2025. redovni studenti imaju pravo na potpuno besplatan prijevoz vlakom unutar RH. Potrebna je pametna kartica s HŽPP blagajne (uz potvrdu o studiranju s e-Građana). Izrada traje 7 dana, godišnja aktivacija košta 2,65 €.',
+          link: 'https://www.hzpp.hr/hr/pametne-kartice-2/besplatna-putovanja-redovnih-studenata' },
+    en: { title: 'Free train travel across Croatia – from 2025',
+          body: 'From 1 January 2025, full-time students have the right to completely free train travel within Croatia. You need a smart card from an HŽPP ticket office (plus proof of enrolment from e-Građani). Card takes 7 days, annual activation costs €2.65.',
+          link: 'https://www.hzpp.hr/hr/pametne-kartice-2/besplatna-putovanja-redovnih-studenata' } },
+
+  { id: 'savjetovaliste', cat: 'pomoc',
+    hr: { title: 'Besplatna psihološka podrška – povjerljivo',
+          body: 'Savjetovalište FFZG-a radi od 1998. i nudi besplatnu psihološku pomoć svim studentima. Prijave mailom na savjet@ffzg.hr. Savjetovanje je 100% povjerljivo i moguće ga je dogovoriti online.',
+          link: 'https://savjetovaliste.ffzg.unizg.hr/' },
+    en: { title: 'Free psychological support – confidential',
+          body: 'The FFZG counselling service has been running since 1998 and offers free psychological help to all students. Book by email at savjet@ffzg.hr. Fully confidential, online sessions available.',
+          link: 'https://savjetovaliste.ffzg.unizg.hr/' } },
+
+  { id: 'cetiri-pokusaja', cat: 'studij',
+    hr: { title: 'Imaš 4 pokušaja za položiti ispit',
+          body: 'Svaki kolegij možeš polagati 4 puta. Ako ne položiš ni u četvrtom roku, moraš upisati predmet iznova. Ne ostavljaj sve za kraj – što prije položiš, manje stresa.',
+          link: null },
+    en: { title: 'You have 4 attempts to pass each exam',
+          body: 'Every course can be sat 4 times. Fail all four and you have to re-enrol the subject. Don\'t leave it to the end – the sooner you pass, the less stress.' } },
+
+  { id: 'zet-popust', cat: 'novac',
+    hr: { title: 'Iksica = studentski popust na ZET',
+          body: 'Mjesečni ZET pokaz kupuješ uz studentski popust s Iksicom. Provjeri aktualne cijene na ZET-ovim prodajnim mjestima.',
+          link: 'https://www.zet.hr' },
+    en: { title: 'Student card = discounted ZET pass',
+          body: 'Buy a monthly ZET zone pass at a student discount with your student card. Check current prices at ZET sales points.',
+          link: 'https://www.zet.hr' } },
+
+  { id: 'wc', cat: 'zivot',
+    hr: { title: 'Gdje su WC-i',
+          body: 'U glavnoj zgradi na svakom katu, blizu stubišta. U knjižnici uz stubište, podrum, 2. i 4. kat.',
+          link: null },
+    en: { title: 'Where are the toilets',
+          body: 'Main building, every floor, near the stairs. Library, by the stairs, basement, 2nd and 4th floor.',
+          link: null } },
+
+  { id: 'knjiznica-generalno', cat: 'zivot',
+    hr: { title: 'Knjižnica FFZG-a – što sve možeš koristiti',
+          body: 'Besplatna za studente: posudba knjiga s iksicom, čitaonice za učenje, računala s AAI prijavom, tisak i skeniranje po niskim cijenama. Pristup digitalnim bazama podataka za humanistiku i društvene znanosti. Radi i subotom.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' },
+    en: { title: 'FFZG Library – what you can actually use',
+          body: 'Free for students: borrow books with your student card, use reading rooms and computers (AAI login), print and scan cheaply. Digital humanities and social science databases included. Open Saturdays too.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' } },
+
+  { id: 'knjiznica-posudba', cat: 'sustavi',
+    hr: { title: 'Knjižnica posuđuje na 14 dana',
+          body: 'Knjige posuđuješ s iksicom – možeš produžiti do 2 puta, telefonom, mailom ili online s AAI računom.',
+          link: 'https://knjiznica.ffzg.unizg.hr/usluge/posudba/' },
+    en: { title: 'Library loans run 14 days',
+          body: 'Borrow books with your library card – renew up to 2 times by phone, email or online with your AAI account.',
+          link: 'https://knjiznica.ffzg.unizg.hr/usluge/posudba/' } },
+
+  { id: 'menza-menu', cat: 'zivot',
+    hr: { title: 'Provjeri menu menze online svaki dan',
+          body: 'Dnevni menu menze FFZG-a objavljuje se svaki dan na webu SC-a – znaš što te čeka prije nego što siđeš u podrum.',
+          link: 'https://www.sczg.unizg.hr/prehrana/restorani/filozofski-fakultet' },
+    en: { title: 'Check the canteen menu online every day',
+          body: 'The FFZG canteen\'s daily menu is posted every day on the SC website – know what\'s on before heading to the basement.',
+          link: 'https://www.sczg.unizg.hr/prehrana/restorani/filozofski-fakultet' } },
+
+  { id: 'studomat-upis', cat: 'sustavi',
+    hr: { title: 'Predmet upisuješ preko Studomata',
+          body: 'Kolegije upisuješ na Studomatu u zadanim rokovima. Datume objavljuje odsjek – prati ih od prvog tjedna. Propustiš li rok, javi se referadi.',
+          link: 'https://www.isvu.hr/studomat' },
+    en: { title: 'Enrol courses via Studomat',
+          body: 'Enrol in courses on Studomat within the set windows. Your department posts the dates – check from week one. Missed it? Contact the referada.',
+          link: 'https://www.isvu.hr/studomat' } },
+
+  { id: 'pravobranitelj', cat: 'pomoc',
+    hr: { title: 'Studentski pravobranitelj – tvoja zaštita',
+          body: 'Ozbiljan konflikt s profesorom ili kršenje pravilnika? Studentski pravobranitelj prima pritužbe diskretno i besplatno te brani tvoja prava pred upravom. Kontaktiraj ga preko Studentskog zbora.',
+          link: 'https://szbor.ffzg.unizg.hr/' },
+    en: { title: 'Student ombudsman – your protection',
+          body: 'Serious conflict with a professor or a rule violation? The student ombudsman accepts complaints discreetly and for free, defending your rights before the administration. Contact via the Student Council.',
+          link: 'https://szbor.ffzg.unizg.hr/' } },
+
+  { id: 'drzavna-stipendija', cat: 'novac',
+    hr: { title: 'Državna stipendija – prati natječaj MZOM-a',
+          body: 'Ministarstvo znanosti raspisuje natječaj jednom godišnje, obično krajem listopada ili početkom studenog. Prijava je online preko sustava Vidra s e-Građanima. Prati stranice MZOM-a za točan rok.',
+          link: 'https://mzom.gov.hr' },
+    en: { title: 'State scholarship – watch for the MZOM call',
+          body: 'The Ministry of Science opens applications once a year, usually late October or early November. Apply online via the Vidra system using e-Građani. Follow the MZOM website for the exact deadline.',
+          link: 'https://mzom.gov.hr' } },
+
+  { id: 'bicikl-bajs', cat: 'zivot',
+    hr: { title: 'Biciklom do faksa – stalke i Bajs u blizini',
+          body: 'Stalke za bicikle nalaze se sa strane zgrade, lijevo od ulaza. U blizini su i dvije Bajs stanice – jedna kod ulaza, jedna s druge strane ceste.',
+          link: null },
+    en: { title: 'Cycling to campus – racks and Bajs nearby',
+          body: 'Bike racks are on the side of the building, left of the entrance. There are also two Bajs public bike stations – one near the entrance, one across the road.',
+          link: null } },
+
+  { id: 'knjiznica-racunala', cat: 'sustavi',
+    hr: { title: 'Javna računala u Knjižnici – treba AAI',
+          body: 'Na prvom katu Knjižnice ima javno dostupnih računala s printerom i skenerom. Za prijavu trebaš AAI@EduHr račun. Radi tijekom radnog vremena knjižnice.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' },
+    en: { title: 'Public PCs in the Library – AAI required',
+          body: 'The Library\'s first floor has publicly available computers with a printer and scanner. Log in with your AAI@EduHr account. Open during library hours.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' } },
+
+
+  { id: 'rok-odjave', cat: 'studij',
+    hr: { title: 'Rok za odjavu kolegija ≠ rok ispita',
+          body: 'Kolegij odjavljuješ na Studomatu unutar 2 tjedna od početka semestra. Kasnije = ostaješ upisan.',
+          link: null },
+    en: { title: 'Course drop deadline ≠ exam deadline',
+          body: 'Drop a course on Studomat within 2 weeks of semester start. Later = stuck with it.',
+          link: null } },
+
+  { id: 'ispitni-rokovi', cat: 'studij',
+    hr: { title: 'Ispitne rokove možeš naći na stranicama odsjeka',
+          body: 'Svaki odsjek objavljuje raspored ispitnih rokova na svojoj web stranici. Provjeri na početku semestra i upiši rokove u kalendar – ne čekaj da ti netko javi.',
+          link: null },
+    en: { title: 'Exam dates are on your department\'s website',
+          body: 'Every department publishes its exam schedule on its own web page. Check at the start of semester and put the dates in your calendar – don\'t wait to be told.',
+          link: null } },
+
+
+  { id: 'strani-jezici', cat: 'pomoc',
+    hr: { title: 'Centar za strane jezike – popust za studente',
+          body: 'Tečajevi engleskog, njemačkog, francuskog itd. – uz Iksicu znatno jeftinije.',
+          link: 'https://centarzastranejezike.ffzg.unizg.hr' },
+    en: { title: 'Foreign language centre – student rates',
+          body: 'English, German, French etc. – significantly cheaper with student card.' } },
+
+  /* ── NEW: Život na faksu ── */
+  { id: 'ksff', cat: 'zivot',
+    hr: { title: 'KSFF – kultno studentsko okupljalište',
+          body: 'Klub studenata u podrumu fakulteta. Kultno mjesto za kavu, kvizove i brucošijade – jedan od najaktivnijih studentskih klubova u gradu.',
+          link: 'https://web.facebook.com/kaesefef/?locale=hr_HR' },
+    en: { title: 'KSFF – the cult student hangout',
+          body: 'Student club in the faculty basement. The go-to spot for coffee, quizzes and freshman events – one of the most active student clubs in the city.',
+          link: 'https://web.facebook.com/kaesefef/?locale=hr_HR' } },
+
+  { id: 'knjiznica-velicina', cat: 'zivot',
+    hr: { title: 'Druga najveća knjižnica u Hrvatskoj',
+          body: 'Knjižnica FFZG-a odmah je iza NSK-a – preko 600.000 svezaka, 750 radnih mjesta i 200+ računala raspoređenih na 7 etaža (prizemlje, 5 katova, podrum).',
+          link: 'https://knjiznica.ffzg.unizg.hr/' },
+    en: { title: 'Second largest library in Croatia',
+          body: 'The FFZG library is right behind the National Library – over 600,000 volumes, 750 workstations and 200+ computers across 7 floors.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' } },
+
+  { id: 'info-centar', cat: 'zivot',
+    hr: { title: 'Izgubljen/a? Info-centar je odmah pored ulaza',
+          body: 'Odmah desno od glavnog ulaza – rade ga studenti viših godina koji znaju faks u dušu. Pitaj ih gdje je koja dvorana, kome se javiti za što, i mogu ti izdati iksicu.',
+          link: 'https://infocentar.ffzg.unizg.hr/' },
+    en: { title: 'Lost? Info centre is right by the entrance',
+          body: 'Just right of the main entrance – staffed by upper-year students who know the faculty inside out. Ask them where any room is, who to talk to, and they can issue your student ID (iksica) too.',
+          link: 'https://infocentar.ffzg.unizg.hr/' } },
+
+  { id: 'udruge', cat: 'zivot',
+    hr: { title: 'Preko 20 studentskih udruga i klubova',
+          body: 'Od KSFF-a do odsjeknih klubova (povjesničari, kroatisti, sociolozi...). Najbrži prečac za upoznavanje, projekte i praksu.',
+          link: 'https://web2020.ffzg.unizg.hr/studenti/studentske-udruge-i-klubovi/' },
+    en: { title: 'Over 20 student clubs and associations',
+          body: 'From KSFF to department clubs (historians, Croatists, sociologists...). The fastest shortcut for meeting people, projects and practical experience.',
+          link: 'https://web2020.ffzg.unizg.hr/studenti/studentske-udruge-i-klubovi/' } },
+
+  { id: 'iksica-kultura', cat: 'zivot',
+    hr: { title: 'Iksica = zlatna karta za kulturu',
+          body: 'HNK Zagreb, Gavella, MSU i brojna kina nude studentske popuste. Teatar &TD u sklopu SC-a nudi posebno povoljne ulaznice. Uvijek pitaj na blagajni.',
+          link: 'https://www.sczg.unizg.hr/kultura' },
+    en: { title: 'Student ID = golden ticket for culture',
+          body: 'HNK Zagreb, Gavella, MSU and many cinemas offer student discounts. The &TD Theatre in the SC complex has especially good deals. Always ask at the box office.',
+          link: 'https://www.sczg.unizg.hr/kultura' } },
+
+  /* ── NEW: Digitalni alati ── */
+  { id: 'aai', cat: 'sustavi',
+    hr: { title: 'AAI@EduHr – jedan račun za sve',
+          body: 'Korisničko ime s upisa (korisnik@ffzg.hr) otvara Omegu, Studomat/ISVU, besplatni Eduroam Wi-Fi i Microsoft 365 s 1 TB OneDrive prostora. Aktiviraj odmah.',
+          link: 'https://www.eduroam.hr/' },
+    en: { title: 'AAI@EduHr – one account for everything',
+          body: 'Your enrolment username (user@ffzg.hr) unlocks Omega, Studomat/ISVU, free Eduroam Wi-Fi and Microsoft 365 with 1 TB OneDrive storage. Activate it immediately.',
+          link: 'https://www.eduroam.hr/' } },
+
+  { id: 'aai-lozinka', cat: 'sustavi',
+    hr: { title: 'Spremi AAI lozinku na sigurno mjesto – odmah',
+          body: 'Bez AAI@EduHr nemaš pristup ničemu. Obnavljanje lozinke može potrajati i nekoliko dana – nemoj čekati da je izgubiš.',
+          link: null },
+    en: { title: 'Save your AAI password somewhere safe – now',
+          body: 'Without AAI@EduHr you have no access to anything. Recovering a lost password can take several days – don\'t wait until it\'s gone.',
+          link: null } },
+
+  { id: 'omega', cat: 'sustavi',
+    hr: { title: 'Omega – prati od prvog dana',
+          body: 'Moodle platforma FFZG-a. Profesori tu objavljuju svu literaturu, prezentacije i rokove. Neke obavijesti ne dolaze nigdje drugdje. Lozinku za pristup kolegiju dobivaš na prvom predavanju.',
+          link: 'https://omega.ffzg.hr/' },
+    en: { title: 'Omega – follow it from day one',
+          body: 'FFZG\'s Moodle platform. Professors post all literature, slides and deadlines here. Some announcements exist nowhere else. You get the course password at the first lecture.',
+          link: 'https://omega.ffzg.hr/' } },
+
+  { id: 'office365', cat: 'sustavi',
+    hr: { title: 'Besplatni Microsoft 365 za studente',
+          body: 'Kroz AAI@EduHr identitet imaš besplatnu licencu za cijeli Office paket (Word, Excel, PowerPoint...) i 1 TB OneDrive pohrane.',
+          link: 'https://office365.skole.hr/' },
+    en: { title: 'Free Microsoft 365 for students',
+          body: 'Your AAI@EduHr identity gives you a free licence for the entire Office suite (Word, Excel, PowerPoint...) and 1 TB OneDrive storage.',
+          link: 'https://office365.skole.hr/' } },
+
+  { id: 'studomat-rok', cat: 'sustavi',
+    hr: { title: 'Studomat zatvori prijavu ispita 48h ranije',
+          body: 'Ne čekaj zadnji trenutak – sustav zna biti spor ili pasti pred rokove. Prijavi ispit čim znaš da ideš.',
+          link: 'https://isvu.hr/studomat' },
+    en: { title: 'Studomat closes exam registration 48h early',
+          body: 'Don\'t wait until the last moment – the system can be slow or crash before deadlines. Register as soon as you know you\'re going.',
+          link: 'https://isvu.hr/studomat' } },
+
+  { id: 'potpis', cat: 'studij',
+    hr: { title: 'Provjeri uvjete za potpis od prvog tjedna',
+          body: 'Puno kolegija boduje ili uvjetuje prisutnost. Od prvog tjedna provjeri uvjete za potpis za svaki predmet – bez potpisa nema upisa više godine.',
+          link: null },
+    en: { title: 'Check attendance requirements from week one',
+          body: 'Many courses grade or require attendance. From week one, check the signature conditions for every subject – without the signature you can\'t enrol in the next year.',
+          link: null } },
+
+  /* ── NEW: Sport i zdravlje ── */
+  { id: 'tzk', cat: 'studij',
+    hr: { title: 'TZK je obavezan – ne ignoriraj ga',
+          body: 'Tjelesna i zdravstvena kultura obavezna je na prvoj i drugoj godini preddiplomskog studija. Bez dovoljno dolazaka nema potpisa. Biraš između Sljemena, streličarstva, joge, plesa, borilačkih vještina i još mnogo toga.',
+          link: 'https://tzk.ffzg.unizg.hr/' },
+    en: { title: 'PE is mandatory – don\'t ignore it',
+          body: 'Physical education is compulsory in the first and second year of undergraduate study. Not enough attendance means no signature. Choose from Sljeme, archery, yoga, dance, martial arts and more.',
+          link: 'https://tzk.ffzg.unizg.hr/' } },
+
+  { id: 'sistematski', cat: 'pomoc',
+    hr: { title: 'Obavezan sistematski pregled za brucoše',
+          body: 'Svi brucoši moraju obaviti preventivni pregled u studentskoj ambulanti na Sigetu (Avenija Većeslava Holjevca 22). Prati obavijesti na stranici faksa za raspored po odsjecima.',
+          link: 'https://www.ffzg.unizg.hr/' },
+    en: { title: 'Mandatory health check for first-years',
+          body: 'All first-year students must complete a preventive check-up at the student health clinic in Siget (Avenija Većeslava Holjevca 22). Follow faculty notices for your department\'s schedule.',
+          link: 'https://www.ffzg.unizg.hr/' } },
+
+  /* ── NEW: Financije ── */
+  { id: 'menza-svi', cat: 'novac',
+    hr: { title: 'Subvencija za prehranu vrijedi i van FFZG-a',
+          body: 'Studentska subvencija za prehranu vrijedi na svim sveučilišnim menzama u Zagrebu – ne samo na FFZG-u. Iskoristi menze na FSB-u, Agronomskom, Knežiji i drugima.',
+          link: 'https://studentski.hr/' },
+    en: { title: 'Meal subsidy works beyond FFZG too',
+          body: 'The student meal subsidy is valid at all university canteens in Zagreb, not just FFZG. Use the canteens at FSB, Agronomy faculty, Knežija and others.',
+          link: 'https://studentski.hr/' } },
+
+  { id: 'student-servis', cat: 'novac',
+    hr: { title: 'Student servis – zarada uz faks',
+          body: 'Ugovore i ponudu poslova rješavaš brzo i online. Potvrdu o studiranju za upis u evidenciju besplatno preuzeš putem e-Građana. Usmena preporuka kolega brže funkcionira od online liste.',
+          link: 'https://www.sczg.unizg.hr/student-servis/' },
+    en: { title: 'Student job agency – earn alongside studying',
+          body: 'Manage contracts and job listings quickly online. Download your enrolment certificate via e-Građani for free. A personal recommendation from peers works faster than the online list.',
+          link: 'https://www.sczg.unizg.hr/student-servis/' } },
+
+  /* ── NEW: Smještaj i mobilnost ── */
+  { id: 'domovi', cat: 'novac',
+    hr: { title: 'Studentski domovi – prijave u lipnju',
+          body: 'Natječaj se raspisuje svake godine u lipnju. Oni koji ne dobiju dom mogu se prijaviti na subvenciju od 60 € mjesečno za privatni najam. Sava je najveći (4.000+ kreveta, Jarun), Cvjetno ima fitness i restoran.',
+          link: 'https://www.sczg.unizg.hr/smjestaj' },
+    en: { title: 'Student dorms – applications open in June',
+          body: 'Applications open every June. Those who don\'t get a dorm place can apply for a €60/month subsidy for private rent. Sava is the largest (4,000+ beds, Jarun), Cvjetno has a gym and restaurant.',
+          link: 'https://www.sczg.unizg.hr/smjestaj' } },
+
+  { id: 'erasmus', cat: 'studij',
+    hr: { title: 'Erasmus+ – semestar u inozemstvu uz stipendiju',
+          body: 'Erasmus+ nudi financijsku potporu za studij u Španjolskoj, Njemačkoj, Italiji i desecima drugih zemalja EU. Natječaji se raspisuju jednom godišnje – prati Ured za međunarodnu suradnju FFZG-a.',
+          link: 'https://www.ffzg.unizg.hr/medunarodna-suradnja/' },
+    en: { title: 'Erasmus+ – a semester abroad with a grant',
+          body: 'Erasmus+ offers financial support for studying in Spain, Germany, Italy and dozens of other EU countries. Applications open once a year – follow the FFZG International Relations Office.',
+          link: 'https://www.ffzg.unizg.hr/medunarodna-suradnja/' } },
+
+  /* ── NEW: Insider tips ── */
+  { id: 'mail-profesor', cat: 'studij',
+    hr: { title: 'Profesori ne moraju odgovoriti dan prije ispita',
+          body: 'Javi se tjedan-dva ranije. Konzultacije se ne koriste dovoljno – većina FFZG profesora je stvarno dostupna i voli konkretan razgovor, a ne samo hrpu mailova pred kraj semestra.',
+          link: null },
+    en: { title: 'Professors don\'t have to reply the day before the exam',
+          body: 'Contact them one or two weeks earlier. Office hours are underused – most FFZG professors are genuinely available and appreciate a focused conversation.',
+          link: null } },
+
+  { id: 'skripte', cat: 'studij',
+    hr: { title: 'Pitaj starije kolege za provjerene skripte',
+          body: 'Službena literatura je često preopširna. Iskusni studenti već znaju što profesor stvarno pita na ispitu – njihove skripte vrijede zlata.',
+          link: null },
+    en: { title: 'Ask older students for tried-and-tested notes',
+          body: 'Official reading lists are often too broad. Experienced students already know what the professor actually asks in exams – their notes are worth their weight in gold.',
+          link: null } },
+
+  { id: 'knjiznica-citalnica', cat: 'zivot',
+    hr: { title: 'Tiha čitaonica – dođi rano u ispitnim rokovima',
+          body: 'Čitaonica na višim katovima knjižnice je zlato za učenje – ali mjesta nestaju brzo. Tiskanje u knjižnici košta sitniš.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' },
+    en: { title: 'Silent reading room – arrive early during exam season',
+          body: 'The reading room on the upper floors of the library is perfect for studying – but spots fill fast. Printing in the library costs next to nothing.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' } },
+
+  { id: 'knjige-knjiznica', cat: 'novac',
+    hr: { title: 'Ne kupuj odmah sve knjige s popisa',
+          body: 'Knjige iz knjižnice možeš zadužiti na dulji period. Puno toga s popisa literature ćeš preskočiti – pričekaj da vidiš što profesor stvarno zadaje.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' },
+    en: { title: 'Don\'t buy every book on the reading list right away',
+          body: 'Library books can be borrowed for extended periods. You\'ll skip a lot of what\'s on the list – wait and see what the professor actually assigns.',
+          link: 'https://knjiznica.ffzg.unizg.hr/' } },
+
+  { id: 'zbor-drustvene-mreze', cat: 'zivot',
+    hr: { title: 'Prati Studentski zbor i odsjek na društvenim mrežama',
+          body: 'Brze obavijesti, natječaji, eventi i važni rokovi najbrže dolaze preko profila Studentskog zbora FFZG-a i tvog odsjeka – ne čekaj newsletter.',
+          link: 'https://szbor.ffzg.unizg.hr/' },
+    en: { title: 'Follow the Student Council and department on social media',
+          body: 'Quick updates, competitions, events and important deadlines arrive fastest via the FFZG Student Council and your department\'s profiles – don\'t wait for the newsletter.',
+          link: 'https://szbor.ffzg.unizg.hr/' } },
+
+  { id: 'theta', cat: 'sustavi',
+    hr: { title: 'Theta – što moraš položiti i koliko ECTS-a',
+          body: 'Na Theti pronađeš ECTS informacijski paket svog studija – popis svih obveznih i izbornih kolegija, broj bodova, literaturu i preduvjete za upis viših godina. Odaberi "Novi i reformirani studiji" pa pronađi svoj odsjek. Pristup je slobodan, bez prijave.',
+          link: 'https://thetha.ffzg.hr/ECTS/' },
+    en: { title: 'Theta – what you need to pass and how many ECTS',
+          body: 'Theta has the ECTS information package for your programme – all mandatory and elective courses, credit values, reading lists and prerequisites for higher years. Select "Novi i reformirani studiji", then find your department. No login required.',
+          link: 'https://thetha.ffzg.hr/ECTS/' } },
+
+  { id: 'e-molba', cat: 'studij',
+    hr: { title: 'E-molba – digitalni zahtjev koji mora stići na vrijeme',
+          body: 'Sve službene zahtjeve (naknadni upis/ispis kolegija, više od 35 ECTS-a, mirovanje...) šalješ kroz portal za e-molbe. Sustav automatski odbija zakasnele molbe – provjeri rokove u akademskom kalendaru prije nego što klikneš Pošalji. Odgovor stiže na @m.ffzg.hr mail.',
+          link: 'https://molbe.ffzg.hr/' },
+    en: { title: 'E-molba – digital requests that must arrive on time',
+          body: 'All official requests (late course enrolment/drop, exceeding 35 ECTS, study leave...) go through the e-molba portal. The system automatically rejects late submissions – check deadlines in the academic calendar before you click Send. The decision arrives in your @m.ffzg.hr inbox.',
+          link: 'https://molbe.ffzg.hr/' } },
+
+  { id: 'ispravi-me', cat: 'studij',
+    hr: { title: 'Provjeri svaki seminar na Ispravi.me',
+          body: 'Besplatni online servis koji pronalazi pravopisne i gramatičke greške u tekstovima na hrvatskom. Akademsko pisanje na FFZG-u ne tolerira nemar – provuci svaki rad kroz ovaj sustav prije predaje.',
+          link: 'https://ispravi.me/' },
+    en: { title: 'Run every paper through Ispravi.me',
+          body: 'Free online tool that catches spelling and grammar mistakes in Croatian text. Academic writing at FFZG has zero tolerance for sloppiness – run every paper through this before submitting.',
+          link: 'https://ispravi.me/' } },
+
+  { id: 'akademska-cetvrt', cat: 'studij',
+    hr: { title: 'Akademska četvrt – predavanje počinje 15 minuta nakon',
+          body: 'Na faksu predavanje formalno može početi 15 minuta NAKON sata u rasporedu. Profesor to koristi po volji, a isto može vrijediti i za toleranciju kašnjenja studenata. Što to točno znači kod pojedinog profesora – provjeri od starijih kolega.',
+          link: null },
+    en: { title: 'Academic quarter – the 15-minute rule',
+          body: 'A lecture can formally start 15 minutes AFTER the scheduled time. Professors apply this at their discretion, and it can also mean a tolerance window for late-arriving students. What it means in practice depends on the professor – ask older classmates.',
+          link: null } },
+
+  { id: 'oznake-dvorana', cat: 'zivot',
+    hr: { title: 'Oznake dvorana – A-006 nije tajanstvena šifra',
+          body: 'Slovo = trakt (krilo) zgrade. Prva brojka = kat (0 je prizemlje, 1 je prvi kat...). Ostatak = broj dvorane ili kabineta. Dakle A-006 = trakt A, prizemlje, prostorija 6. Trakti su A, B, C, E i F – sve spojeno hodnicima.',
+          link: null },
+    en: { title: 'Room codes – A-006 isn\'t a secret cipher',
+          body: 'Letter = building wing (trakt). First digit = floor (0 is ground floor, 1 is first floor...). The rest = room number. So A-006 = wing A, ground floor, room 6. Wings are A, B, C, E and F – all connected by corridors.',
+          link: null } },
+
+  { id: 'ponistavanje-iksice', cat: 'novac',
+    hr: { title: '10. studenog – rok za subvenciju na iksici',
+          body: 'Svakog 10. studenog sustav automatski poništava subvenciju za studente koji nisu upisani u tekuću akademsku godinu. Ako ne završiš upis na Studomatu do tog datuma, gubiš pravo na jeftinu hranu u menzi.',
+          link: null },
+    en: { title: '10 November – student card subsidy deadline',
+          body: 'Every 10 November the system automatically cancels the meal subsidy for students not enrolled in the current academic year. If you haven\'t completed enrolment on Studomat by that date, you lose discounted canteen meals.',
+          link: null } },
+
+  { id: 'kolokvij', cat: 'studij',
+    hr: { title: 'Kolokvij – može biti zamjena za ispit',
+          body: 'Kolokvij je parcijalna provjera znanja koja može biti preduvjet za ispit, zamijeniti dio gradiva ili potpuno zamijeniti završni ispit. Što kolokvij znači na konkretnom kolegiju uvijek piše u izvedbenom planu – ili pitaš profesora na prvom predavanju.',
+          link: null },
+    en: { title: 'Kolokvij – can replace the final exam',
+          body: 'A kolokvij is a partial test that can be a prerequisite for the exam, replace part of the exam material, or replace the final exam entirely. What it means on a specific course is in the course outline – or ask the professor at the first lecture.',
+          link: null } },
+
+  { id: 'prilagodba', cat: 'pomoc',
+    hr: { title: 'Prilagodba – podrška studentima s invaliditetom ili kroničnim bolestima',
+          body: 'Ured za akademsku prilagodbu organizira prilagodbu nastave, kolokvija i ispita za studente s invaliditetom, oštećenjima vida/sluha, disleksijom, ADHD-om ili kroničnim bolestima. Kontaktiraj ih mailom na prilagodba@m.ffzg.hr.',
+          link: 'https://prilagodba.ffzg.unizg.hr/' },
+    en: { title: 'Prilagodba – support for students with disabilities or chronic conditions',
+          body: 'The Academic Accommodation Office arranges adjustments to classes, colloquiums and exams for students with disabilities, vision/hearing impairments, dyslexia, ADHD or chronic conditions. Email prilagodba@m.ffzg.hr.',
+          link: 'https://prilagodba.ffzg.unizg.hr/' } },
+
+  { id: 'tajnistvo', cat: 'studij',
+    hr: { title: 'Tajništvo odsjeka – nije ista stvar kao referada',
+          body: 'Svaki odsjek ima vlastito tajništvo na svom katu. Tamo predaješ papire specifične za smjer, rješavaš upis u seminarske grupe i preuzimaš potvrde vezane za tvoj studij. Za probleme koje centralna referada ne može riješiti – idi do tajnice svog odsjeka.',
+          link: 'https://web2020.ffzg.unizg.hr/ustroj/odsjeci/' },
+    en: { title: 'Department secretariat – not the same as the referada',
+          body: 'Every department has its own secretariat on its floor. That\'s where you submit department-specific paperwork, sort seminar group enrolment and collect programme certificates. For problems the central referada can\'t solve – go to your department secretary.',
+          link: 'https://web2020.ffzg.unizg.hr/ustroj/odsjeci/' } },
+
+  { id: 'it-podrska', cat: 'sustavi',
+    hr: { title: 'IT podrška – za AAI, Omegu i Wi-Fi probleme',
+          body: 'Za probleme s prijavom na Omegu ili Studomat, reset AAI lozinke ili spajanje na Eduroam Wi-Fi – piši na podrska@ffzg.hr. Za probleme s elektroničkim identitetom (AAI) piši na aai@ffzg.hr.',
+          link: 'https://web2020.ffzg.unizg.hr/it-sluzba/' },
+    en: { title: 'IT support – for AAI, Omega and Wi-Fi issues',
+          body: 'For login problems with Omega or Studomat, AAI password resets or connecting to Eduroam Wi-Fi – email podrska@ffzg.hr. For issues specifically with your electronic identity (AAI) email aai@ffzg.hr.',
+          link: 'https://web2020.ffzg.unizg.hr/it-sluzba/' } },
+];
+
+/* category metadata */
+window.KOMPAS_CATS = {
+  studij:  { hr: 'Studij',   en: 'Studies',  color: 'var(--cat-studij)',  icon: 'ti-school' },
+  sustavi: { hr: 'Sustavi',  en: 'Systems',  color: 'var(--cat-sustavi)', icon: 'ti-sitemap' },
+  novac:   { hr: 'Novac',    en: 'Money',    color: 'var(--cat-novac)',   icon: 'ti-coin' },
+  zivot:   { hr: 'Život',    en: 'Life',     color: 'var(--cat-zivot)',   icon: 'ti-mug' },
+  pomoc:   { hr: 'Pomoć',    en: 'Help',     color: 'var(--cat-pomoc)',   icon: 'ti-shield-check' },
+};
+
+/* ── BUILDING POIs (Points of Interest) ──
+   x/y are 0..100 percentages of the building footprint.
+   Mapping in karta.js places them into the SVG corridor regions.
+
+   Corridor regions (for reference):
+     C-trakt (top horiz):    y ~ 8,   x = 17..83 (centered above top yard)
+     B-trakt (middle horiz): y ~ 50,  x = 0..100 (full width)
+     A-bottom (bottom horiz):y ~ 92,  x = 17..83
+     A-left  / E (left wing):  x ~ 8,  y = 12..88
+     A-right / F (right wing): x ~ 92, y = 12..88
+*/
+window.KOMPAS_POIS = [
+  /* ───── GROUND FLOOR (P) ───── */
+  /* D-halls along A-bottom corridor */
+  { id: 'd1', name: 'D-1', cat: 'dvorana', floor: 'P', building: 'main', trakt: 'A', x: 22, y: 92,
+    hr: 'Velika dvorana D-1. Koristi se za predavanja za 200+ studenata.', en: 'Lecture hall D-1, capacity 200+.' },
+  { id: 'd2', name: 'D-2', cat: 'dvorana', floor: 'P', building: 'main', trakt: 'A', x: 30, y: 92,
+    hr: 'Velika dvorana D-2.', en: 'Lecture hall D-2.' },
+  { id: 'd3', name: 'D-3', cat: 'dvorana', floor: 'P', building: 'main', trakt: 'A', x: 38, y: 92,
+    hr: 'Velika dvorana D-3.', en: 'Lecture hall D-3.' },
+  { id: 'd4', name: 'D-4', cat: 'dvorana', floor: 'P', building: 'main', trakt: 'A', x: 55, y: 92,
+    hr: 'Velika dvorana D-4.', en: 'Lecture hall D-4.' },
+  { id: 'd5', name: 'D-5', cat: 'dvorana', floor: 'P', building: 'main', trakt: 'A', x: 63, y: 92,
+    hr: 'Velika dvorana D-5.', en: 'Lecture hall D-5.' },
+  { id: 'd6', name: 'D-6', cat: 'dvorana', floor: 'P', building: 'main', trakt: 'A', x: 71, y: 92,
+    hr: 'Velika dvorana D-6.', en: 'Lecture hall D-6.' },
+
+  /* Entrance + services along A-bottom */
+  { id: 'ulaz', name: 'Glavni ulaz', cat: 'info', floor: 'P', building: 'main', trakt: 'A', x: 47, y: 92,
+    hr: 'Jedini otvoreni ulaz u zgradu. Porta i pošta ovdje.', en: 'Only open entrance. Porter & mail here.' },
+  { id: 'kafic', name: 'Studentski kafić', cat: 'kafic', floor: 'P', building: 'main', trakt: 'A', x: 17, y: 92,
+    hr: 'Najjeftinija kava na faksu. Radi pon–pet 8–16h.', en: 'Cheapest coffee on campus. Mon–Fri 8–16.' },
+  { id: 'menza-ulaz', name: 'Ulaz u menzu', cat: 'menza', floor: 'P', building: 'main', trakt: 'A', x: 80, y: 92,
+    hr: 'Stepenice u podrum prema menzi. Radi 8–16h, pauza 12–13.', en: 'Stairs to basement canteen. Open 8–16, break 12–13.' },
+
+  /* Departments along B-trakt middle corridor */
+  { id: 'b-prizemlje-anglistika', name: 'Anglistika', cat: 'odsjek', floor: 'P', building: 'main', trakt: 'B', x: 30, y: 50,
+    hr: 'Odsjek za anglistiku – uredi u traktu B prizemlja.', en: 'English Department offices – B-tract, ground floor.' },
+  { id: 'b-prizemlje-lingvistika', name: 'Lingvistika', cat: 'odsjek', floor: 'P', building: 'main', trakt: 'B', x: 50, y: 50,
+    hr: 'Odsjek za lingvistiku.', en: 'Linguistics Department.' },
+  { id: 'b-prizemlje-orijent', name: 'Orijentalistika i hungarologija', cat: 'odsjek', floor: 'P', building: 'main', trakt: 'B', x: 70, y: 50,
+    hr: 'Orijentalistika i hungarologija.', en: 'Oriental Studies & Hungarian.' },
+
+  /* Departments along C-trakt top corridor */
+  { id: 'c-prizemlje-arheol', name: 'Arheologija', cat: 'odsjek', floor: 'P', building: 'main', trakt: 'C', x: 35, y: 8,
+    hr: 'Odsjek za arheologiju.', en: 'Archaeology Department.' },
+  { id: 'c-prizemlje-etno', name: 'Etnologija i antropologija', cat: 'odsjek', floor: 'P', building: 'main', trakt: 'C', x: 60, y: 8,
+    hr: 'Odsjek za etnologiju i antropologiju.', en: 'Ethnology & Anthropology.' },
+
+  /* ───── FLOOR 1 ───── */
+  { id: 'b1-kroatistika', name: 'Kroatistika', cat: 'odsjek', floor: '1', building: 'main', trakt: 'B', x: 50, y: 50,
+    hr: 'Odsjek za kroatistiku – B-trakt, 1. kat.', en: 'Croatian Studies – B-tract, 1st floor.' },
+  { id: 'c1-povijest', name: 'Povijest', cat: 'odsjek', floor: '1', building: 'main', trakt: 'C', x: 35, y: 8,
+    hr: 'Odsjek za povijest.', en: 'History Department.' },
+  { id: 'c1-povumj', name: 'Povijest umjetnosti', cat: 'odsjek', floor: '1', building: 'main', trakt: 'C', x: 60, y: 8,
+    hr: 'Odsjek za povijest umjetnosti.', en: 'Art History Department.' },
+  { id: 'a1-128', name: 'A-128 Učionica', cat: 'ucionica', floor: '1', building: 'main', trakt: 'A', x: 92, y: 50,
+    hr: 'Standardna učionica.', en: 'Standard classroom.' },
+  { id: 'a1-115', name: 'A-115 Učionica', cat: 'ucionica', floor: '1', building: 'main', trakt: 'A', x: 8, y: 50,
+    hr: 'Standardna učionica.', en: 'Standard classroom.' },
+  { id: 'wc-1', name: 'WC (1. kat)', cat: 'wc', floor: '1', building: 'main', trakt: 'A', x: 8, y: 75,
+    hr: 'WC u traktu A, kraj stepeništa.', en: 'Restrooms – A-tract, by the stairs.' },
+
+  /* ───── FLOOR 2 ───── */
+  { id: 'b2-slav', name: 'Slavistika', cat: 'odsjek', floor: '2', building: 'main', trakt: 'B', x: 38, y: 50,
+    hr: 'Odsjek za slavistiku.', en: 'Slavic Studies.' },
+  { id: 'b2-kompknj', name: 'Komparativna književnost', cat: 'odsjek', floor: '2', building: 'main', trakt: 'B', x: 62, y: 50,
+    hr: 'Komparativna književnost.', en: 'Comparative Literature.' },
+  { id: 'c2-filo', name: 'Filozofija', cat: 'odsjek', floor: '2', building: 'main', trakt: 'C', x: 25, y: 8,
+    hr: 'Odsjek za filozofiju.', en: 'Philosophy Department.' },
+  { id: 'c2-ped', name: 'Pedagogija', cat: 'odsjek', floor: '2', building: 'main', trakt: 'C', x: 50, y: 8,
+    hr: 'Odsjek za pedagogiju.', en: 'Pedagogy.' },
+  { id: 'c2-soc', name: 'Sociologija', cat: 'odsjek', floor: '2', building: 'main', trakt: 'C', x: 75, y: 8,
+    hr: 'Odsjek za sociologiju.', en: 'Sociology.' },
+  { id: 'a2-212a', name: 'A-212a', cat: 'ucionica', floor: '2', building: 'main', trakt: 'A', x: 92, y: 50,
+    hr: 'Učionica A-212a (prije pregrade bila A-212; A-212b je do nje).', en: 'Classroom A-212a (split from A-212).' },
+  { id: 'a2-savjet', name: 'Savjetovalište za studente', cat: 'referada', floor: '2', building: 'main', trakt: 'A', x: 8, y: 30,
+    hr: 'Besplatno psihološko savjetovanje. Termini se naručuju mailom.', en: 'Free student counselling. Book by email.' },
+  { id: 'wc-2', name: 'WC (2. kat)', cat: 'wc', floor: '2', building: 'main', trakt: 'A', x: 92, y: 75,
+    hr: 'WC u traktu A, 2. kat.', en: 'WC, A-tract, 2nd floor.' },
+
+  /* ───── FLOOR 3 – A becomes E (left) + F (right); A still has bottom corridor ───── */
+  { id: 'b3-fonetika', name: 'Fonetika', cat: 'odsjek', floor: '3', building: 'main', trakt: 'B', x: 38, y: 50,
+    hr: 'Odsjek za fonetiku.', en: 'Phonetics.' },
+  { id: 'b3-csj', name: 'Centar za strane jezike', cat: 'odsjek', floor: '3', building: 'main', trakt: 'B', x: 62, y: 50,
+    hr: 'Tečajevi stranih jezika za studente i građane.', en: 'Foreign language courses for students and the public.' },
+  { id: 'c3-psi', name: 'Psihologija', cat: 'odsjek', floor: '3', building: 'main', trakt: 'C', x: 50, y: 8,
+    hr: 'Odsjek za psihologiju.', en: 'Psychology Department.' },
+  { id: 'e3-germ', name: 'Germanistika', cat: 'odsjek', floor: '3', building: 'main', trakt: 'E', x: 8, y: 35,
+    hr: 'Germanistika – E-trakt, 3. kat.', en: 'German Studies – E-tract, 3rd floor.' },
+  { id: 'e3-inf', name: 'Informacijske znanosti', cat: 'odsjek', floor: '3', building: 'main', trakt: 'E', x: 8, y: 65,
+    hr: 'Informacijske i komunikacijske znanosti.', en: 'Information & Communication Sciences.' },
+  { id: 'f3-rom', name: 'Romanistika', cat: 'odsjek', floor: '3', building: 'main', trakt: 'F', x: 92, y: 30,
+    hr: 'Romanistika.', en: 'Romance Studies.' },
+  { id: 'f3-tal', name: 'Talijanistika', cat: 'odsjek', floor: '3', building: 'main', trakt: 'F', x: 92, y: 50,
+    hr: 'Talijanistika.', en: 'Italian Studies.' },
+  { id: 'f3-klf', name: 'Klasična filologija', cat: 'odsjek', floor: '3', building: 'main', trakt: 'F', x: 92, y: 70,
+    hr: 'Klasična filologija.', en: 'Classical Philology.' },
+  { id: 'wc-3', name: 'WC (3. kat)', cat: 'wc', floor: '3', building: 'main', trakt: 'E', x: 8, y: 85,
+    hr: 'WC u traktu E, 3. kat.', en: 'WC, E-tract, 3rd floor.' },
+
+  /* ───── SMALL BUILDING (mala zgrada) ───── */
+  { id: 'd7', name: 'D-7 Velika dvorana', cat: 'dvorana', floor: 'P', building: 'mala', x: 35, y: 30,
+    hr: 'Velika dvorana D-7 u maloj zgradi – koristi se za skupove, tribine, plenume.', en: 'Large hall D-7 in the small building – used for assemblies and lectures.' },
+  { id: 'referada', name: 'Referada (Studentska služba)', cat: 'referada', floor: 'P', building: 'mala', x: 75, y: 30,
+    hr: 'Sve oko upisa, ispita, potvrda. Mala zgrada, prizemlje desno. Radno vrijeme: pon–pet 10–13h.', en: 'Enrollment, exams, certificates. Small building, ground floor right. Mon–Fri 10–13.' },
+  { id: 'dekanat', name: 'Dekanat', cat: 'referada', floor: 'P', building: 'mala', x: 75, y: 70,
+    hr: 'Uprava fakulteta. Mala zgrada, iza Referade.', en: 'Faculty administration. Small building, behind Referada.' },
+
+  /* ───── LIBRARY ───── */
+  { id: 'knjiznica-ulaz', name: 'Knjižnica – ulaz', cat: 'knjiznica', floor: 'P', building: 'knjiznica', x: 50, y: 50,
+    hr: 'Glavna knjižnica FFZG-a. Posuđuješ s Iksicom. Radi pon–pet 8–19, sub 9–13.', en: 'Main FFZG library. Borrow with student card. Mon–Fri 8–19, Sat 9–13.' },
+  { id: 'knjiznica-rac', name: 'Računalna učionica', cat: 'knjiznica', floor: '1', building: 'knjiznica', x: 50, y: 50,
+    hr: 'Računalna učionica – 1. kat knjižnice. 24 računala, printer, skener.', en: 'Computer lab – 1st floor library. 24 PCs, printer, scanner.' },
+  { id: 'knjiznica-konf', name: 'Konferencijska dvorana', cat: 'knjiznica', floor: '2', building: 'knjiznica', x: 50, y: 50,
+    hr: 'Konferencijska dvorana – 2. kat knjižnice.', en: 'Conference hall – 2nd floor library.' },
+
+  /* WCs additional */
+  { id: 'wc-p-c', name: 'WC (P)', cat: 'wc', floor: 'P', building: 'main', trakt: 'C', x: 80, y: 8,
+    hr: 'WC u traktu C, prizemlje.', en: 'WC, C-tract, ground floor.' },
+];
+
+/* POI category styling */
+window.KOMPAS_POI_CATS = {
+  dvorana:   { hr: 'Dvorane',           en: 'Lecture halls',  color: '#fe8019' },
+  odsjek:    { hr: 'Odsjeci',           en: 'Departments',    color: '#83a598' },
+  referada:  { hr: 'Referada/Dekanat',  en: 'Registrar/Dean', color: '#fb4934' },
+  knjiznica: { hr: 'Knjižnica',         en: 'Library',        color: '#b8bb26' },
+  menza:     { hr: 'Menza',             en: 'Canteen',        color: '#fabd2f' },
+  kafic:     { hr: 'Kafić',             en: 'Café',           color: '#fabd2f' },
+  wc:        { hr: 'WC',                en: 'Restrooms',      color: '#928374' },
+  info:      { hr: 'Ulazi',             en: 'Entrances',      color: '#a89984' },
+  ucionica:  { hr: 'Učionice',          en: 'Classrooms',     color: '#7c6f64' },
+};
+
+/* ── UI strings (HR/EN) ── */
+window.KOMPAS_STRINGS = {
+  hr: {
+    nav: { home: 'Početna', map: 'Karta', info: 'Info', tips: 'Savjeti' },
+    foot: { msg: 'Ne znaš gdje?', sub: '// Referada · Info centar', btn: '[ Kontakti ]' },
+    common: { random: 'Random', seeAll: 'Sve savjete', back: '← Natrag', close: 'Zatvori' },
+  },
+  en: {
+    nav: { home: 'Home', map: 'Map', info: 'Info', tips: 'Tips' },
+    foot: { msg: 'Lost?', sub: '// Registrar · Info centre', btn: '[ Contacts ]' },
+    common: { random: 'Random', seeAll: 'See all tips', back: '← Back', close: 'Close' },
+  }
+};

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Savjeti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<link rel="preload" href="topo.svg" as="image" type="image/svg+xml">
+<link rel="icon" href="favicon.png" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ── filter strip ── */
+.filter-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--border2);
+  margin-bottom: 18px;
+}
+.filter-chip {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all .15s;
+  user-select: none;
+}
+.filter-chip:hover { border-color: var(--border); color: var(--text2); }
+.filter-chip.active {
+  border-color: currentColor;
+  background: var(--bg4);
+  color: var(--text);
+}
+.filter-chip .ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--c, currentColor);
+}
+.filter-chip .ic i { font-size: 14px; line-height: 1; }
+.filter-chip .ct { opacity: .55; font-weight: 700; }
+
+/* category section header */
+.cat-header {
+  display: flex; align-items: center; gap: 12px;
+  margin: 22px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px dashed currentColor;
+}
+.cat-header:first-of-type { margin-top: 4px; }
+.cat-header .cat-mark {
+  width: 22px; height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: inherit;
+}
+.cat-header .cat-mark i { font-size: 20px; line-height: 1; }
+.cat-header h2 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  flex: 1;
+}
+.cat-toggle {
+  background: var(--bg2);
+  border: 1px solid currentColor;
+  color: inherit;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  opacity: 0.75;
+  transition: opacity .15s, background .15s;
+}
+.cat-toggle:hover {
+  opacity: 1;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+.cat-toggle i { font-size: 12px; }
+
+/* tips list */
+.tip-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+@media (min-width: 760px) {
+  .tip-list.compact { grid-template-columns: 1fr 1fr; }
+}
+.tip-card {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--cat-color, var(--border));
+  overflow: hidden;
+  transition: border-color .15s, background .15s;
+}
+.tip-card:hover {
+  border-color: var(--border);
+  border-left-color: var(--cat-color, var(--border));
+  background: var(--bg4);
+}
+.tip-card.expanded {
+  background: var(--bg3);
+}
+
+.tip-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.tip-head .title {
+  font-size: 14px; font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  flex: 1;
+  letter-spacing: 0.3px;
+}
+.tip-head .chev {
+  font-size: 14px;
+  color: var(--text3);
+  border: 1px solid var(--border2);
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.tip-card:hover .chev { border-color: var(--border); }
+.tip-card.expanded .chev {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--bg);
+}
+
+.tip-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .25s ease, padding .25s ease;
+  padding: 0 14px;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--text2);
+  border-top: 0 solid var(--border3);
+}
+.tip-card.expanded .tip-body {
+  max-height: 400px;
+  padding: 14px 16px 18px;
+  border-top-width: 1px;
+}
+.tip-body a {
+  display: block; margin-top: 8px;
+  color: var(--orange);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+/* search bar */
+.search-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+.search-wrap > i {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 15px; color: var(--muted); pointer-events: none;
+}
+.search-input {
+  width: 100%; box-sizing: border-box;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); font-family: inherit;
+  font-size: 14px; letter-spacing: 0.5px;
+  padding: 14px 40px 14px 40px;
+  outline: none;
+  transition: border-color .15s;
+}
+.search-input::placeholder { color: var(--text3); }
+.search-input:focus { border-color: var(--orange); }
+.search-clear {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 14px; padding: 2px;
+  display: none;
+  transition: color .15s;
+}
+.search-clear:hover { color: var(--text3); }
+.search-clear.visible { display: block; }
+
+/* empty state */
+.empty {
+  padding: 28px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  background: var(--bg3);
+  border: 1px dashed var(--border2);
+}
+
+.controls-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+.controls-row button {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.controls-row button:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+
+<div class="frame wide" id="frame">
+
+  <!-- nav -->
+  <div class="nav">
+    <a class="nav-logo" href="./">
+      <img src="compass.svg" width="23" height="23" alt="">
+      FFZG Kompas
+    </a>
+      <div class="nav-links">
+        <a href="karta" id="sub-map">Karta</a>
+        <a href="info" id="sub-info">Info</a>
+        <a href="tips" class="active" id="sub-tips">Savjeti</a>
+      </div>
+      <div class="nav-controls">
+      <button class="nav-btn" id="btn-hr" onclick="KompasApp.setLang('hr')">HR</button>
+      <button class="nav-btn" id="btn-en" onclick="KompasApp.setLang('en')">EN</button>
+      <div class="nav-sep"></div>
+      <button class="nav-btn" id="btn-theme" onclick="KompasApp.toggleTheme()" aria-label="Toggle theme">
+        <i class="ti ti-sun" id="theme-icon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- page head -->
+  <div class="pagehead" data-screen-label="04 Savjeti">
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+    <h1 id="lbl-title">Savjeti</h1>
+    <div class="pagehead-sub" id="lbl-subtitle">Stvari koje bismo voljeli da nam je netko rekao prvi tjedan.</div>
+  </div>
+
+  <!-- main content -->
+  <div class="section">
+    <!-- search -->
+    <div class="search-wrap">
+      <i class="ti ti-search"></i>
+      <input class="search-input" id="search-input" type="search" placeholder="Pretraži savjete…" autocomplete="off" lang="hr" />
+      <button class="search-clear" id="search-clear" aria-label="Očisti pretragu"><i class="ti ti-x"></i></button>
+    </div>
+
+    <!-- filter strip -->
+    <div class="filter-strip" id="filter-strip"></div>
+
+    <!-- (per-category toggles live on each cat-header) -->
+
+    <!-- tips container – grouped by category when no filter, single list when filtered -->
+    <div id="tips-container"></div>
+  </div>
+
+  <!-- footer (credits) -->
+  <div class="footer">
+    <div class="footer-credits">
+      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, osim onih koje nisu.</span>
+    </div>
+    <div class="footer-year">:^)</div>
+  </div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+const TIPS_STRINGS = {
+  hr: {
+    eyebrow: 'Field intel · Savjeti i trikovi',
+    title: 'Savjeti',
+    subtitle: 'Stvari koje bismo voljeli da nam je netko rekao prvi tjedan.',
+    expand: 'Proširi sve', collapse: 'Sklopi sve',
+    countOne: 'savjet', countFew: 'savjeta', countMany: 'savjeta',
+    all: 'Sve', empty: 'Nema savjeta u ovoj kategoriji.',
+    searchPlaceholder: 'Pretraži savjete…',
+  },
+  en: {
+    eyebrow: 'Field intel · Tips & tricks',
+    title: 'Tips & Tricks',
+    subtitle: 'Things we wish someone had told us our first week.',
+    expand: 'Expand all', collapse: 'Collapse all',
+    countOne: 'tip', countFew: 'tips', countMany: 'tips',
+    all: 'All', empty: 'No tips in this category.',
+    searchPlaceholder: 'Search tips…',
+  },
+};
+
+let ACTIVE_FILTER = null; /* null = all; otherwise category id */
+let SEARCH_QUERY = '';
+let EXPANDED = new Set();
+
+function pluralizeHr (n) {
+  if (n === 1) return TIPS_STRINGS.hr.countOne;
+  if (n >= 2 && n <= 4) return TIPS_STRINGS.hr.countFew;
+  return TIPS_STRINGS.hr.countMany;
+}
+
+function applyLang (lang) {
+  const s = TIPS_STRINGS[lang] || TIPS_STRINGS.hr;
+  const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  set('lbl-title', s.title);
+  set('lbl-subtitle', s.subtitle);
+  const si = document.getElementById('search-input');
+  if (si) si.placeholder = s.searchPlaceholder;
+  document.documentElement.lang = lang;
+  renderFilters();
+  renderTips();
+}
+
+/* ── filter chips ── */
+function renderFilters () {
+  const lang = KompasApp.getLang();
+  const strip = document.getElementById('filter-strip');
+  strip.innerHTML = '';
+
+  /* "All" chip */
+  const totalCt = KOMPAS_TIPS.length;
+  const allChip = document.createElement('button');
+  allChip.className = 'filter-chip' + (ACTIVE_FILTER === null ? ' active' : '');
+  allChip.style.color = 'var(--orange)';
+  allChip.innerHTML = `<span class="ic" style="--c:var(--orange)"><i class="ti ti-asterisk"></i></span><span>${TIPS_STRINGS[lang].all}</span>`;
+  allChip.addEventListener('click', () => { ACTIVE_FILTER = null; renderFilters(); renderTips(); });
+  strip.appendChild(allChip);
+
+  /* category chips */
+  Object.entries(KOMPAS_CATS).forEach(([key, cat]) => {
+    const ct = KOMPAS_TIPS.filter(t => t.cat === key).length;
+    if (ct === 0) return;
+    const chip = document.createElement('button');
+    chip.className = 'filter-chip' + (ACTIVE_FILTER === key ? ' active' : '');
+    chip.style.color = cat.color;
+    chip.innerHTML = `
+      <span class="ic" style="--c:${cat.color}"><i class="ti ${cat.icon}"></i></span>
+      <span>${cat[lang] || cat.hr}</span>
+    `;
+    chip.addEventListener('click', () => {
+      ACTIVE_FILTER = (ACTIVE_FILTER === key ? null : key);
+      renderFilters();
+      renderTips();
+    });
+    strip.appendChild(chip);
+  });
+}
+
+/* ── tip rendering ── */
+function renderTips () {
+  const lang = KompasApp.getLang();
+  const s = TIPS_STRINGS[lang];
+  const container = document.getElementById('tips-container');
+  container.innerHTML = '';
+
+  const q = SEARCH_QUERY.toLowerCase();
+  const visible = KOMPAS_TIPS.filter(t => {
+    if (ACTIVE_FILTER && t.cat !== ACTIVE_FILTER) return false;
+    if (!q) return true;
+    const d = t[lang] || t.hr;
+    return d.title.toLowerCase().includes(q) || d.body.toLowerCase().includes(q);
+  });
+
+  if (visible.length === 0) {
+    container.innerHTML = `<div class="empty">${q ? (lang === 'hr' ? `Nema rezultata za „${SEARCH_QUERY}".` : `No results for "${SEARCH_QUERY}".`) : s.empty}</div>`;
+    return;
+  }
+
+  if (ACTIVE_FILTER) {
+    const cat = KOMPAS_CATS[ACTIVE_FILTER];
+    const allExpanded = visible.every(t => EXPANDED.has(t.id));
+    const header = document.createElement('div');
+    header.className = 'cat-header';
+    header.style.color = cat.color;
+    header.innerHTML = `
+      <div class="cat-mark"><i class="ti ${cat.icon}"></i></div>
+      <h2>${cat[lang] || cat.hr}</h2>
+      <button class="cat-toggle" data-cat="${ACTIVE_FILTER}">
+        <span>${allExpanded ? s.collapse : s.expand}</span>
+        <i class="ti ${allExpanded ? 'ti-chevrons-up' : 'ti-chevrons-down'}"></i>
+      </button>
+    `;
+    header.querySelector('.cat-toggle').addEventListener('click', () => toggleCategory(ACTIVE_FILTER));
+    container.appendChild(header);
+    const list = document.createElement('div');
+    list.className = 'tip-list';
+    visible.forEach(tip => list.appendChild(buildTipCard(tip, null, lang)));
+    container.appendChild(list);
+  } else {
+    /* grouped by category */
+    Object.entries(KOMPAS_CATS).forEach(([catKey, cat]) => {
+      const tips = visible.filter(t => t.cat === catKey);
+      if (!tips.length) return;
+      const allExpanded = tips.every(t => EXPANDED.has(t.id));
+      const header = document.createElement('div');
+      header.className = 'cat-header';
+      header.style.color = cat.color;
+      header.innerHTML = `
+        <div class="cat-mark"><i class="ti ${cat.icon}"></i></div>
+        <h2>${cat[lang] || cat.hr}</h2>
+        <button class="cat-toggle" data-cat="${catKey}">
+          <span>${allExpanded ? s.collapse : s.expand}</span>
+          <i class="ti ${allExpanded ? 'ti-chevrons-up' : 'ti-chevrons-down'}"></i>
+        </button>
+      `;
+      header.querySelector('.cat-toggle').addEventListener('click', () => toggleCategory(catKey));
+      container.appendChild(header);
+
+      const list = document.createElement('div');
+      list.className = 'tip-list';
+      tips.forEach((tip, i) => list.appendChild(buildTipCard(tip, null, lang)));
+      container.appendChild(list);
+    });
+  }
+}
+
+function buildTipCard (tip, num, lang) {
+  const t = tip[lang] || tip.hr;
+  const cat = KOMPAS_CATS[tip.cat];
+  const card = document.createElement('article');
+  card.className = 'tip-card' + (EXPANDED.has(tip.id) ? ' expanded' : '');
+  card.dataset.id = tip.id;
+  card.style.setProperty('--cat-color', cat.color);
+  card.innerHTML = `
+    <header class="tip-head">
+      <div class="title">${t.title}</div>
+      <div class="chev"><i class="ti ${EXPANDED.has(tip.id) ? 'ti-minus' : 'ti-plus'}"></i></div>
+    </header>
+    <div class="tip-body">
+      ${t.body}
+      ${t.link ? ` <a href="${t.link}" target="_blank" rel="noopener">↗ ${t.link.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a>` : ''}
+    </div>
+  `;
+  card.querySelector('.tip-head').addEventListener('click', () => toggle(tip.id));
+  return card;
+}
+
+function toggle (id) {
+  if (EXPANDED.has(id)) EXPANDED.delete(id);
+  else EXPANDED.add(id);
+  /* re-render so category toggle label updates if state changed */
+  renderTips();
+}
+
+function toggleCategory (catKey) {
+  const tips = KOMPAS_TIPS.filter(t => t.cat === catKey);
+  const allExpanded = tips.every(t => EXPANDED.has(t.id));
+  if (allExpanded) tips.forEach(t => EXPANDED.delete(t.id));
+  else               tips.forEach(t => EXPANDED.add(t.id));
+  renderTips();
+}
+
+/* search */
+const searchInput = document.getElementById('search-input');
+const searchClear = document.getElementById('search-clear');
+searchInput.addEventListener('input', () => {
+  SEARCH_QUERY = searchInput.value.trim();
+  searchClear.classList.toggle('visible', SEARCH_QUERY.length > 0);
+  renderTips();
+});
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  SEARCH_QUERY = '';
+  searchClear.classList.remove('visible');
+  searchInput.focus();
+  renderTips();
+});
+
+/* initial */
+renderFilters();
+renderTips();
+</script>
+</body>
+</html>

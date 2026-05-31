@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FFZG Kompas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<link rel="preload" href="topo.svg" as="image" type="image/svg+xml">
+<link rel="icon" href="favicon.png" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ── front-page hero ── */
+.hero {
+  padding: 44px max(var(--pad), calc((100% - 860px) / 2)) 48px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.hero-eyebrow {
+  font-size: 13px; letter-spacing: 4px;
+  color: var(--orange); text-transform: uppercase;
+  margin-top: 0; margin-bottom: 28px;
+}
+.hero h1 {
+  font-size: 58px; font-weight: 700;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--text); line-height: 1.05; margin-bottom: 20px;
+}
+.divider-dash {
+  display: flex; align-items: center;
+  justify-content: center; gap: 12px; margin-bottom: 20px;
+}
+.divider-dash span { width: 60px; height: 1.5px; background: var(--orange); }
+.divider-dash svg  { flex-shrink: 0; fill: var(--orange); }
+.hero-desc {
+  font-size: 15px; color: var(--text);
+  line-height: 1.85; max-width: 520px;
+  margin: 0 auto 32px; font-style: italic;
+  text-wrap: balance;
+}
+/* entry cards */
+.entry-cards {
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px; text-align: left;
+  max-width: 720px;
+  margin: 0 auto;
+}
+@media (min-width: 480px) {
+  .entry-cards { grid-template-columns: 1fr 1fr; column-gap: 16px; }
+}
+.entry-card {
+  background: var(--bg3); border: 1px solid var(--border2);
+  cursor: pointer; text-decoration: none;
+  transition: border-color .15s, background .15s;
+  overflow: hidden;
+  display: flex; align-items: stretch;
+}
+.entry-card:hover { border-color: var(--orange); }
+.entry-card-ill {
+  width: 100px; flex-shrink: 0;
+  object-fit: contain; padding: 16px;
+  pointer-events: none;
+}
+.entry-card-body {
+  flex: 1; padding: 18px 10px 18px 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.entry-card-text { flex: 1; min-width: 0; }
+.entry-card-label {
+  font-size: 15px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text); display: block; margin-bottom: 6px;
+  transition: color .15s;
+}
+.entry-card-sub {
+  font-size: 13px; color: var(--text3);
+  line-height: 1.6; letter-spacing: .3px;
+}
+.entry-card:hover .entry-card-label { color: var(--orange); }
+
+/* tips block */
+.tips-block {
+  border: 1px solid var(--border2);
+  overflow: hidden;
+}
+.tip-row {
+  border-bottom: 1px solid var(--border3);
+  background: var(--bg3);
+  overflow: hidden;
+  transition: background .15s;
+}
+.tip-row:last-child { border-bottom: 0; }
+.tip-row:hover    { background: var(--bg4); }
+.tip-row.expanded { background: var(--bg3); border-left: 2px solid var(--orange); }
+
+.tip-main {
+  display: grid;
+  grid-template-columns: 130px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  min-height: 68px;
+  cursor: pointer; user-select: none;
+}
+.tip-pill {
+  display: inline-flex; align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border: 1px solid currentColor;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1;
+  justify-self: start;
+}
+.tip-pill i { font-size: 13px; line-height: 1; }
+.tip-pill .pill-label { letter-spacing: 1.5px; }
+.tip-text {
+  font-size: 14px; font-weight: 700; color: var(--text);
+  line-height: 1.4;
+}
+.tip-chevron {
+  font-size: 14px; flex-shrink: 0;
+  color: var(--text3);
+  border: 1px solid var(--border2);
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, border-color .15s, color .15s;
+  user-select: none;
+}
+.tip-row:hover    .tip-chevron { border-color: var(--border); }
+.tip-row.expanded .tip-chevron { background: var(--orange); border-color: var(--orange); color: var(--bg); }
+
+.tip-extra {
+  max-height: 0; overflow: hidden;
+  transition: max-height .25s ease, padding .25s ease;
+  padding: 0 14px;
+  font-size: 13px; color: var(--text2); line-height: 1.85;
+  border-top: 0 solid var(--border3);
+}
+.tip-row.expanded .tip-extra {
+  max-height: 400px;
+  padding: 14px 16px 18px;
+  border-top-width: 1px;
+}
+.tip-extra a {
+  display: block; margin-top: 8px;
+  color: var(--orange); text-decoration: none;
+}
+
+.bottom-row {
+  display: flex; gap: 8px;
+  margin-top: 12px;
+}
+.btn-rand {
+  background: var(--bg3); border: 1px solid var(--border2);
+  color: var(--text3); cursor: pointer;
+  font-family: inherit;
+  font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 12px 14px; display: flex; align-items: center;
+  justify-content: center; gap: 7px;
+  transition: background .15s, color .15s;
+}
+.btn-rand:hover { background: var(--bg4); color: var(--text2); }
+.btn-rand:active { background: var(--bg5); transform: scale(0.97); }
+.btn-rand.spinning { color: var(--orange); }
+.btn-rand i { font-size: 20px; display: inline-flex; align-items: center; justify-content: center; transform-origin: center center; }
+@keyframes dice-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.btn-rand.spinning i { animation: dice-spin 0.4s cubic-bezier(.25,.46,.45,.94); }
+.btn-all {
+  flex: 1; background: var(--bg3); border: 1px solid var(--border2); color: var(--orange);
+  cursor: pointer; font-family: inherit; text-decoration: none;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 12px 14px; display: flex; align-items: center;
+  justify-content: center; gap: 7px; transition: background .15s, color .15s;
+}
+.btn-all:hover { background: var(--bg4); }
+</style>
+</head>
+<body>
+
+<div class="frame wide" id="frame">
+
+  <!-- nav -->
+  <div class="nav">
+    <a class="nav-logo" href="./">
+      <img src="compass.svg" width="23" height="23" alt="">
+      FFZG Kompas
+    </a>
+      <div class="nav-links">
+        <a href="karta" id="sub-map">Karta</a>
+        <a href="info" id="sub-info">Info</a>
+        <a href="tips" id="sub-tips">Savjeti</a>
+      </div>
+      <div class="nav-controls">
+      <button class="nav-btn active" id="btn-hr" onclick="KompasApp.setLang('hr')">HR</button>
+      <button class="nav-btn"        id="btn-en" onclick="KompasApp.setLang('en')">EN</button>
+      <div class="nav-sep"></div>
+      <button class="nav-btn" id="btn-theme" onclick="KompasApp.toggleTheme()" title="Promijeni temu" aria-label="Toggle theme">
+        <i class="ti ti-sun" id="theme-icon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- subnav (page tabs) -->
+  <nav class="subnav" aria-label="Stranice">
+    <a href="./" class="active" id="sub-home"><span class="num">01</span>Početna</a>
+    <a href="karta"                id="sub-map"><span class="num">02</span>Karta</a>
+    <a href="info"                 id="sub-info"><span class="num">03</span>Info</a>
+    <a href="tips"                 id="sub-tips"><span class="num">04</span>Savjeti</a>
+  </nav>
+
+  <!-- hero -->
+  <div class="hero">
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+
+    <div class="hero-eyebrow" id="hero-eyebrow">2025 ▲ 2026</div>
+    <h1>FFZG<br>Kompas</h1>
+    <div class="divider-dash">
+      <span></span><img src="windrose.svg" width="26" height="26" alt="" style="flex-shrink:0;"><span></span>
+    </div>
+    <p class="hero-desc" id="hero-desc">
+      Neslužbeni vodič za preživljavanje na Filozofskom.<br>Snađi se brže nego smo se mi snašli.
+    </p>
+
+    <!-- entry cards -->
+    <div class="entry-cards">
+      <a class="entry-card" href="karta">
+        <img class="entry-card-ill" src="maps-orange.png" alt="">
+        <div class="entry-card-body">
+          <div class="entry-card-text">
+            <span class="entry-card-label" id="lbl-karta">Karta zgrade</span>
+            <span class="entry-card-sub"   id="lbl-karta-sub">Učionice, uredi i usluge</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="entry-card" href="info">
+        <img class="entry-card-ill" src="orange-information.png" alt="" style="padding: 14px 17px; object-position: 70% 35%;">
+        <div class="entry-card-body">
+          <div class="entry-card-text">
+            <span class="entry-card-label" id="lbl-info">Gdje pronaći informacije</span>
+            <span class="entry-card-sub"   id="lbl-info-sub">Ljudi, mjesta i sustavi</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- tips & tricks -->
+  <div class="section">
+    <div class="sec-label" id="lbl-tips">Savjeti</div>
+
+    <div class="tips-block">
+      <div class="tip-list" id="tip-list">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <div class="bottom-row">
+      <button class="btn-rand" onclick="rerollTips()">
+        <i class="ti ti-dice-5"></i>
+        <span id="lbl-rand">Random</span>
+      </button>
+      <a class="btn-all" href="tips">
+        <span id="lbl-all">Svi savjeti</span>
+        <i class="ti ti-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- footer (credits) -->
+  <div class="footer">
+    <div class="footer-credits">
+      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, osim onih koje nisu.</span>
+    </div>
+    <div class="footer-year">:^)</div>
+  </div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+/* ── front-page strings (in addition to common ones in app.js) ── */
+const FRONT_STRINGS = {
+  hr: {
+    eyebrow: '2025 ▲ 2026',
+    sub:     'Survival Guide – 2026',
+    desc:    'Neslužbeni vodič za preživljavanje na Filozofskom.<br>Snađi se brže nego smo se mi snašli.',
+    karta:   'Karta zgrade', kartaSub: 'Učionice, uredi i usluge',
+    info:    'Gdje pronaći informacije', infoSub: 'Ljudi, mjesta i sustavi',
+    tips:    'Savjeti',
+    rand:    'Random', all: 'Svi savjeti',
+  },
+  en: {
+    eyebrow: '2025 ▲ 2026',
+    sub:     'Survival Guide – 2026',
+    desc:    'An unofficial guide to surviving FFZG. Get your bearings faster than we did.',
+    karta:   'Building map', kartaSub: 'Classrooms, offices and services',
+    info:    'Where to find info', infoSub: 'People, places and systems',
+    tips:    'Tips & Tricks',
+    rand:    'Random', all: 'See all tips',
+  }
+};
+
+function applyLang (lang) {
+  const s = FRONT_STRINGS[lang];
+  const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  set('hero-eyebrow',   s.eyebrow);
+  const descEl = document.getElementById('hero-desc'); if (descEl) descEl.innerHTML = s.desc;
+  set('lbl-karta',      s.karta);
+  set('lbl-karta-sub',  s.kartaSub);
+  set('lbl-info',       s.info);
+  set('lbl-info-sub',   s.infoSub);
+  set('lbl-tips',       s.tips);
+  set('lbl-rand',       s.rand);
+  set('lbl-all',        s.all);
+  document.documentElement.lang = lang;
+  renderTips(); /* re-render current tips in new language */
+}
+
+/* ── tip rendering ── */
+let CURRENT_TIPS = []; /* ids of the 3 currently shown */
+
+function pickThreeTips () {
+  const pool = [...KOMPAS_TIPS].sort(() => Math.random() - 0.5);
+  const picks = [];
+  const usedCats = new Set();
+  for (const tip of pool) {
+    if (picks.length === 3) break;
+    if (!usedCats.has(tip.cat)) {
+      picks.push(tip.id);
+      usedCats.add(tip.cat);
+    }
+  }
+  return picks;
+}
+
+function rerollTips () {
+  const btn = document.querySelector('.btn-rand');
+  btn.classList.remove('spinning');
+  void btn.offsetWidth;
+  btn.classList.add('spinning');
+  btn.addEventListener('animationend', () => btn.classList.remove('spinning'), { once: true });
+  let next;
+  do {
+    next = pickThreeTips();
+  } while (
+    /* avoid showing the exact same set twice in a row */
+    CURRENT_TIPS.length === 3 &&
+    next.every(id => CURRENT_TIPS.includes(id))
+  );
+  CURRENT_TIPS = next;
+  renderTips();
+}
+
+function renderTips () {
+  if (CURRENT_TIPS.length !== 3) CURRENT_TIPS = pickThreeTips();
+  const lang = KompasApp.getLang();
+  const list = document.getElementById('tip-list');
+  list.innerHTML = '';
+  CURRENT_TIPS.forEach((tipId, i) => {
+    const tip = KOMPAS_TIPS.find(t => t.id === tipId);
+    if (!tip) return;
+    const t = tip[lang] || tip.hr;
+    const cat = KOMPAS_CATS[tip.cat];
+    const catLabel = cat ? cat[lang] : tip.cat;
+
+    const row = document.createElement('div');
+    row.className = 'tip-row';
+    row.innerHTML = `
+      <div class="tip-main" onclick="toggleTip(this)">
+        <div class="tip-pill" style="color:${cat.color};">
+          <i class="ti ${cat.icon}"></i>
+          <span class="pill-label">${catLabel}</span>
+        </div>
+        <span class="tip-text">${t.title}</span>
+        <div class="tip-chevron"><i class="ti ti-plus"></i></div>
+      </div>
+      <div class="tip-extra">
+        ${t.body}
+        ${t.link ? ` <a href="${t.link}" target="_blank" rel="noopener">↗ ${t.link.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a>` : ''}
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function toggleTip (mainEl) {
+  const row = mainEl.parentElement;
+  const isOpen = row.classList.contains('expanded');
+  row.classList.toggle('expanded');
+  row.querySelector('.tip-chevron i').className = isOpen ? 'ti ti-plus' : 'ti ti-minus';
+}
+
+/* initial render */
+renderTips();
+</script>
+</body>
+</html>
