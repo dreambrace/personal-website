@@ -183,11 +183,22 @@ body.light-host::before {
 .nav-btn:hover  { border-color: var(--border); color: var(--text3); }
 .nav-btn.active { border-color: var(--orange); color: var(--orange); }
 .nav-sep { width: 1px; height: 20px; background: var(--border2); }
-#btn-theme { border-color: transparent; padding: 6px; font-size: 22px; }
+#btn-theme { border-color: transparent; padding: 0; font-size: 22px; line-height: 1; justify-content: center; margin-left: 12px; }
 #btn-theme:hover { border-color: transparent; background: none; color: var(--text2); }
+
+/* logo text stacks to 2 lines on very small screens */
+@media (max-width: 380px) {
+  .nav-logo-text { display: inline-flex; flex-direction: column; justify-content: space-between; height: 30px; }
+  .nav-logo-text span { font-size: 15px; letter-spacing: 2px; line-height: 1; }
+}
 
 /* mobile: nav links wrap to their own row */
 @media (max-width: 640px) {
+  .nav {
+    padding-top: 14px;
+    padding-bottom: 5px;
+    row-gap: 8px;
+  }
   .nav-controls {
     margin-left: auto;
   }
@@ -195,12 +206,12 @@ body.light-host::before {
     order: 3;
     flex-basis: 100%;
     justify-content: center;
-    padding-top: 0;
+    padding-top: 5px;
     margin-top: 0;
     border-top: 1px dashed var(--border3);
   }
   .nav-links a {
-    padding: 6px 12px;
+    padding: 5px 11px;
   }
 }
 
@@ -274,12 +285,11 @@ body.light-host::before {
   background: var(--bg2); border-top: 2.3px dashed var(--border);
   padding: 14px var(--pad);
   display: flex;
-  align-items: center; justify-content: space-between; gap: 16px;
-  flex-wrap: wrap;
+  align-items: center; gap: 16px;
 }
 .footer-credits {
   display: flex; flex-direction: column; gap: 3px;
-  min-width: 0;
+  flex: 1; min-width: 0;
 }
 .ft-lbl {
   font-size: 11px;

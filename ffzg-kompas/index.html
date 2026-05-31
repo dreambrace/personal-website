@@ -95,7 +95,7 @@
 
 .tip-main {
   display: grid;
-  grid-template-columns: 130px 1fr auto;
+  grid-template-columns: 110px 1fr auto;
   align-items: center;
   gap: 12px;
   padding: 13px 14px;
@@ -180,6 +180,15 @@
   justify-content: center; gap: 7px; transition: background .15s, color .15s;
 }
 .btn-all:hover { background: var(--bg4); }
+
+@media (max-width: 479px) {
+  .tip-row { border-left: 3px solid var(--cat-color, var(--border2)); }
+  .tip-row.expanded { border-left-color: var(--cat-color, var(--border2)); }
+  .tip-pill { border: none; padding: 0 10px 0 0; gap: 0; background: none; }
+  .tip-pill i { font-size: 18px; }
+  .pill-label { display: none; }
+  .tip-main { grid-template-columns: auto 1fr auto; }
+}
 </style>
 </head>
 <body>
@@ -190,7 +199,7 @@
   <div class="nav">
     <a class="nav-logo" href="/ffzg-kompas/">
       <img src="assets/compass.svg" width="30" height="30" alt="">
-      FFZG Kompas
+      <span class="nav-logo-text"><span>FFZG</span> <span>Kompas</span></span>
     </a>
       <div class="nav-links">
         <a href="/ffzg-kompas/karta" id="sub-map">Karta</a>
@@ -277,7 +286,7 @@
   <!-- footer (credits) -->
   <div class="footer">
     <div class="footer-credits">
-      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, osim onih koje nisu.</span>
+      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, osim onih koje&nbsp;nisu.</span>
     </div>
     <div class="footer-year">:^)</div>
   </div>
@@ -372,6 +381,7 @@ function renderTips () {
 
     const row = document.createElement('div');
     row.className = 'tip-row';
+    row.style.setProperty('--cat-color', cat.color);
     row.innerHTML = `
       <div class="tip-main" onclick="toggleTip(this)">
         <div class="tip-pill" style="color:${cat.color};">
