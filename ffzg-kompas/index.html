@@ -188,6 +188,8 @@
   .tip-pill i { font-size: 18px; }
   .pill-label { display: none; }
   .tip-main { grid-template-columns: auto 1fr auto; }
+  .tip-text { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .tip-row.expanded .tip-text { display: block; overflow: visible; }
 }
 </style>
 </head>
@@ -286,7 +288,7 @@
   <!-- footer (credits) -->
   <div class="footer">
     <div class="footer-credits">
-      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, osim onih koje&nbsp;nisu.</span>
+      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, <span style="white-space: nowrap">osim onih koje nisu.</span></span>
     </div>
     <div class="footer-year">:^)</div>
   </div>
