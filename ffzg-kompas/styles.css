@@ -211,7 +211,7 @@ body.light-host::before {
     border-top: 1px dashed var(--border3);
   }
   .nav-links a {
-    padding: 5px 11px;
+    padding: 9px 11px;
   }
 }
 
