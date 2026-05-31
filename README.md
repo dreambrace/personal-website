@@ -1,1 +1,3 @@
-# personal-website
+# Personal website
+
+Messing around with stuff.
