@@ -183,6 +183,8 @@ body.light-host::before {
 .nav-btn:hover  { border-color: var(--border); color: var(--text3); }
 .nav-btn.active { border-color: var(--orange); color: var(--orange); }
 .nav-sep { width: 1px; height: 20px; background: var(--border2); }
+#btn-theme { border-color: transparent; padding: 6px; font-size: 22px; }
+#btn-theme:hover { border-color: transparent; background: none; color: var(--text2); }
 
 /* mobile: nav links wrap to their own row */
 @media (max-width: 640px) {
