@@ -11,208 +11,358 @@
 <link rel="icon" href="assets/favicon.png" />
 <link rel="stylesheet" href="styles.css" />
 <style>
-/* ─────────────────────────────────────────────
-   Karta page
-   ───────────────────────────────────────────── */
+/* ── viewport lock — position:fixed is the only reliable full-screen approach on iOS ── */
+html, body { overflow: hidden; overscroll-behavior: none; }
+.frame.wide { position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
 
-.lang-en { display: none; }
-[data-lang="en"] .lang-hr { display: none; }
-[data-lang="en"] .lang-en { display: revert; }
-
-/* ── anatomy card (tip-card styles copied from tips.html) ── */
-.tip-card {
-  background: var(--bg3);
-  border: 1px solid var(--border2);
-  border-left: 3px solid var(--cat-color, var(--border));
+/* ── map area fills remaining height ── */
+.map-area {
+  flex: 1;
+  min-height: 0;
+  position: relative;
   overflow: hidden;
-  transition: border-color .15s, background .15s;
-}
-.tip-card:hover { border-color: var(--border); border-left-color: var(--cat-color, var(--border)); background: var(--bg4); }
-.tip-card.expanded { background: var(--bg3); }
-.tip-head {
-  display: flex; align-items: center; gap: 12px;
-  padding: 14px 16px;
-  cursor: pointer; user-select: none;
-}
-.tip-head .title {
-  font-size: 14px; font-weight: 700;
-  color: var(--text3); line-height: 1.4;
-  flex: 1; letter-spacing: 0.3px;
-}
-.tip-head .chev {
-  font-size: 14px; color: var(--text3);
-  border: 1px solid var(--border2);
-  width: 28px; height: 28px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: background .15s, border-color .15s, color .15s;
-}
-.tip-card:hover .chev { border-color: var(--border); }
-.tip-card.expanded .chev { background: var(--orange); border-color: var(--orange); color: var(--bg); }
-.tip-body {
-  max-height: 0; overflow: hidden;
-  transition: max-height .25s ease, padding .25s ease;
-  padding: 0 14px;
-  font-size: 13px; line-height: 1.85; color: var(--text2);
-  border-top: 0 solid var(--border3);
-}
-.tip-card.expanded .tip-body { max-height: 600px; padding: 14px 16px 18px; border-top-width: 1px; }
-
-/* ── room number anatomy diagram ── */
-.anatomy {
-  background: none;
-  border: none;
-  padding: 10px 0 10px 8px;
-  position: relative;
-}
-.anatomy-code {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-family: 'Courier Prime', monospace;
-  font-size: 44px;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1;
-  margin: 4px 0 28px;
-  user-select: none;
-}
-.anatomy-code .ch {
-  display: inline-block;
-  min-width: 28px;
-  text-align: center;
-  position: relative;
-  padding: 0 4px;
-}
-.anatomy-code .ch.dash { color: var(--muted); padding: 0 2px; }
-.anatomy-code .part-trakt { color: var(--green); }
-.anatomy-code .part-floor { color: var(--red); }
-.anatomy-code .part-room  { color: var(--cat-zivot); }
-.anatomy-code .part-sub   { color: var(--blue); }
-
-.anatomy-legend {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-.anatomy-row {
-  display: grid;
-  grid-template-columns: 24px 1fr;
-  align-items: start;
-  gap: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.5;
-  color: var(--text2);
-}
-.anatomy-row .mark { display: none; }
-.anatomy-row .glyph {
-  font-family: 'Courier Prime', monospace;
-  font-size: 22px;
-  font-weight: 700;
-  text-align: center;
-  color: currentColor;
-}
-.anatomy-row > div:last-child {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-}
-.anatomy-row > div:last-child span {
-  padding-left: 0;
-}
-.anatomy-row b {
-  color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 13px;
-  font-weight: 700;
-  flex-shrink: 0;
-  min-width: 110px;
-}
-.anatomy-row.trakt { color: var(--green); }
-.anatomy-row.floor { color: var(--red); }
-.anatomy-row.room  { color: var(--cat-zivot); }
-.anatomy-row.sub   { color: var(--blue); }
-
-@media (max-width: 520px) {
-  .anatomy-row {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-    gap: 4px;
-  }
-  .anatomy-row > div:last-child {
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-  .anatomy-row b {
-    min-width: unset;
-  }
 }
 
-/* search bar */
-.search-wrap {
-  position: relative;
-  margin-bottom: 14px;
+/* ── map container + viewport ── */
+#map-container {
+  width: 100%; height: 100%;
+  background: var(--bg3);
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  user-select: none; -webkit-user-select: none;
 }
-.search-wrap > i {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  font-size: 15px; color: var(--muted); pointer-events: none;
+#map-container:active { cursor: grabbing; }
+#map-viewport { width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; }
+#map-viewport svg { display: block; width: 100%; height: 100%; }
+
+/* ── SVG floor plan styles ── */
+/* ── placeholder SVG styles (floors P / 2 / 3) ── */
+.floor-svg .bldg-bg  { fill: var(--bg3); stroke: var(--border2); stroke-width: 1; }
+.floor-svg .corridor { fill: var(--bg4); stroke: none; }
+.floor-svg .room     { cursor: pointer; }
+.floor-svg .room-shape {
+  fill: var(--bg2); stroke: var(--border); stroke-width: 1;
+  transition: fill .12s, stroke .12s;
 }
+.floor-svg .room-label {
+  fill: var(--text3); font-family: 'Courier Prime', monospace;
+  font-size: 11px; font-weight: 700; text-anchor: middle;
+  pointer-events: none; letter-spacing: 0.3px;
+}
+.floor-svg .room:hover .room-shape { fill: var(--bg5); stroke: var(--border); }
+.floor-svg .room.selected .room-shape { fill: var(--orange); stroke: var(--orange); }
+.floor-svg .room.selected .room-label { fill: var(--bg); }
+.floor-svg .floor-label {
+  fill: var(--muted); font-family: 'Courier Prime', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+}
+
+/* ── Inkscape-format SVG styles (rooms in #rooms layer) ──
+   !important is required because Inkscape bakes fill/stroke into each
+   element's inline style attribute, which otherwise wins over the sheet. */
+.floor-svg #image-anchor { fill: none !important; stroke: none !important; pointer-events: none; }
+.floor-svg #map-text { pointer-events: none; }
+.floor-svg #map-text text, .floor-svg #map-text tspan { fill: var(--text2) !important; stroke: none !important; }
+.floor-svg #hallway  { fill: var(--bg5) !important; pointer-events: none; }
+.floor-svg #walls    { fill: none !important; stroke: var(--text3) !important; }
+.floor-svg #stairs   { fill: none !important; stroke: var(--text3) !important; }
+.floor-svg #arrows-top, .floor-svg #arrows-bottom { fill: var(--muted) !important; stroke: none !important; }
+.floor-svg #arrow-enter { fill: color-mix(in srgb, var(--cat-pomoc) 60%, var(--bg2)) !important; stroke: none !important; }
+
+/* rooms coloured by tract / kind — classes added by karta.js */
+.floor-svg .tract-a { fill: color-mix(in srgb, var(--red)         30%, var(--bg2)) !important; stroke: var(--red)         !important; }
+.floor-svg .tract-b { fill: color-mix(in srgb, var(--blue)        30%, var(--bg2)) !important; stroke: var(--blue)        !important; }
+.floor-svg .tract-c { fill: color-mix(in srgb, var(--green)       30%, var(--bg2)) !important; stroke: var(--green)       !important; }
+.floor-svg .util    { fill: color-mix(in srgb, var(--cat-sustavi) 30%, var(--bg2)) !important; stroke: var(--cat-sustavi) !important; }
+.floor-svg .service { fill: color-mix(in srgb, var(--teal) 30%, var(--bg2)) !important; stroke: var(--teal) !important; }
+/* mystery rooms: neutral, non-interactive */
+.floor-svg .room-mystery { fill: color-mix(in srgb, var(--muted) 60%, var(--bg2)) !important; stroke: var(--border) !important; pointer-events: none; }
+
+/* interactive (has data) — pointer + brighter hover */
+.floor-svg .map-room { cursor: pointer; transition: fill .15s, stroke .15s; }
+.floor-svg .tract-a.map-room:hover { fill: color-mix(in srgb, var(--red)         55%, var(--bg2)) !important; }
+.floor-svg .tract-b.map-room:hover { fill: color-mix(in srgb, var(--blue)        55%, var(--bg2)) !important; }
+.floor-svg .tract-c.map-room:hover { fill: color-mix(in srgb, var(--green)       55%, var(--bg2)) !important; }
+.floor-svg .util.map-room:hover    { fill: color-mix(in srgb, var(--cat-sustavi) 55%, var(--bg2)) !important; }
+.floor-svg .service.map-room:hover { fill: color-mix(in srgb, var(--teal) 55%, var(--bg2)) !important; }
+@keyframes room-pulse {
+  0%, 100% { fill: var(--orange); }
+  50%       { fill: color-mix(in srgb, var(--orange) 45%, var(--bg2)); }
+}
+/* selected wins even while hovered (matches hover specificity, comes later) */
+.floor-svg .map-room.selected,
+.floor-svg .map-room.selected:hover {
+  fill: var(--orange) !important;
+  stroke: var(--orange) !important;
+  animation: room-pulse 1s ease-in-out infinite;
+}
+
+.map-error { padding: 24px; font-size: 13px; color: var(--muted); }
+
+/* ── floating top-left: search + anatomy ── */
+.map-ui-tl {
+  position: absolute;
+  top: 12px; left: 12px;
+  z-index: 55;
+  width: min(360px, calc(100% - 80px));
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+/* ── search ── */
+.search-wrap { position: relative; }
+.search-wrap > i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--muted); pointer-events: none; }
 .search-input {
   width: 100%; box-sizing: border-box;
   background: var(--bg); border: 1px solid var(--border);
   color: var(--text); font-family: inherit;
   font-size: 14px; letter-spacing: 0.5px;
-  padding: 14px 40px 14px 40px;
-  outline: none;
-  transition: border-color .15s;
+  padding: 12px 40px 12px 40px;
+  outline: none; transition: border-color .15s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35);
 }
 .search-input::placeholder { color: var(--text3); }
 .search-input:focus { border-color: var(--orange); }
 .search-clear {
   position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
   background: none; border: none; color: var(--muted);
-  cursor: pointer; font-size: 14px; padding: 2px;
-  display: none; transition: color .15s;
+  cursor: pointer; font-size: 14px; padding: 2px; display: none;
+}
+.search-clear:hover { color: var(--text2); }
+
+/* ── search dropdown ── */
+#search-dropdown {
+  display: none;
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 100;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-top: none; list-style: none;
+  max-height: 260px; overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.sr-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; cursor: pointer;
+  font-size: 13px; color: var(--text3);
+  border-bottom: 1px solid var(--border3);
+}
+.sr-item:last-child { border-bottom: none; }
+.sr-item:hover, .sr-item.pre-selected { background: var(--bg4); color: var(--text2); }
+.sr-icon { font-size: 15px; flex-shrink: 0; }
+.sr-name { flex: 1; font-weight: 700; letter-spacing: 0.3px; }
+.sr-floor {
+  font-family: 'Courier Prime', monospace; font-size: 12px; font-weight: 700;
+  color: var(--orange); letter-spacing: 1px; border: 1px solid var(--border2); padding: 1px 5px;
 }
 
-/* map placeholder */
-.map-placeholder {
+/* ── anatomy card ── */
+.tip-card {
+  background: var(--bg3); border: 1px solid var(--border2);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+  overflow: hidden; transition: border-color .15s, background .15s;
+}
+.tip-card:hover { border-color: var(--border); background: var(--bg4); }
+.tip-card.expanded { background: var(--bg3); }
+.tip-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; cursor: pointer; user-select: none;
+}
+.tip-head .title {
+  font-size: 13px; font-weight: 700; color: var(--text3);
+  line-height: 1.4; flex: 1; letter-spacing: 0.3px;
+}
+.tip-head .chev {
+  font-size: 14px; color: var(--text3);
+  border: 1px solid var(--border2);
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.tip-card.expanded .chev { background: var(--orange); border-color: var(--orange); color: var(--bg); }
+.tip-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .25s ease, padding .25s ease;
+  padding: 0 14px; font-size: 13px; line-height: 1.85; color: var(--text2);
+  border-top: 0 solid var(--border3);
+}
+.tip-card.expanded .tip-body { max-height: 80vh; overflow-y: auto; padding: 14px 16px 18px; border-top-width: 1px; }
+
+/* ── anatomy diagram ── */
+.anatomy-code {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 40px; font-weight: 700; line-height: 1;
+  margin: 4px 0 20px; user-select: none;
+}
+.anatomy-code .ch { display: inline-block; min-width: 26px; text-align: center; padding: 0 3px; }
+.anatomy-code .ch.dash { color: var(--muted); padding: 0 2px; }
+.anatomy-code .part-trakt { color: var(--green); }
+.anatomy-code .part-floor { color: var(--red); }
+.anatomy-code .part-room  { color: var(--cat-zivot); }
+.anatomy-code .part-sub   { color: var(--blue); }
+.anatomy-legend { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.anatomy-row { display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 8px; font-size: 13px; color: var(--text2); }
+.anatomy-row .glyph { font-family: 'Courier Prime', monospace; font-size: 20px; font-weight: 700; text-align: center; color: currentColor; }
+.anatomy-row > div:last-child { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.anatomy-row b { color: var(--text); text-transform: uppercase; letter-spacing: 1px; font-size: 12px; font-weight: 700; flex-shrink: 0; min-width: 100px; }
+.anatomy-row.trakt { color: var(--green); }
+.anatomy-row.floor { color: var(--red); }
+.anatomy-row.room  { color: var(--cat-zivot); }
+.anatomy-row.sub   { color: var(--blue); }
+
+.anatomy-notes {
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid var(--border3);
+  font-size: 11.5px; line-height: 1.6; color: var(--text3);
+}
+.anatomy-notes p { margin: 0; }
+.anatomy-notes hr { border: none; border-top: 1px solid var(--border3); margin: 8px 0; }
+.anatomy-notes ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.anatomy-notes li { display: flex; gap: 6px; }
+.anatomy-notes li::before { content: "•"; color: var(--orange); flex-shrink: 0; }
+
+/* ── anatomy hint icon — only visible on mobile ── */
+.anatomy-hint { display: none; }
+
+@media (max-width: 560px) {
+  /* row layout — stretch so button matches search bar height exactly */
+  .map-ui-tl { flex-direction: row; align-items: stretch; width: calc(100% - 24px); gap: 6px; }
+  .map-ui-tl .search-wrap { flex: 1; min-width: 0; }
+
+  /* card: invisible container of fixed width — visual box lives on .tip-head */
+  #anatomy-card { flex-shrink: 0; width: 44px; overflow: visible; background: none; border: none; box-shadow: none; }
+  #anatomy-card.expanded { background: none; }
+  #anatomy-card .tip-head {
+    height: 100%; width: 44px; box-sizing: border-box; padding: 0 0 0 3px;
+    flex-direction: row; justify-content: center; align-items: center; gap: 0;
+    background: var(--bg3); border: 1px solid var(--border2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    transition: background .15s, border-color .15s;
+  }
+  #anatomy-card .tip-head:hover { background: var(--bg4); border-color: var(--border); }
+  #anatomy-card .tip-head .title { display: none; }
+
+  /* collapsed: tag + question-mark (bigger), no chev */
+  #anatomy-card:not(.expanded) .tip-head .chev { display: none; }
+  #anatomy-card:not(.expanded) .tip-head .ti-tag { font-size: 18px !important; }
+  #anatomy-card:not(.expanded) .anatomy-hint { display: inline-flex; align-items: center; font-size: 18px; color: var(--orange); }
+
+  /* expanded: only the minus chev — both icons hidden */
+  #anatomy-card.expanded .tip-head .ti-tag { display: none; }
+  #anatomy-card.expanded .anatomy-hint { display: none; }
+  #anatomy-card.expanded .tip-head .chev { display: flex; background: var(--orange); border-color: var(--orange); color: var(--bg); width: 26px; height: 26px; }
+
+  /* tip-body: absolute popup — no border/shadow when collapsed (no ghost line) */
+  #anatomy-card .tip-body {
+    position: absolute;
+    top: 50px; left: 66px; right: 0;
+    background: var(--bg3);
+    border: none;
+    box-shadow: none;
+    z-index: 60;
+    max-height: 0; overflow: hidden;
+    padding: 0 14px;
+    transition: max-height .25s ease, padding .25s ease;
+  }
+  #anatomy-card.expanded .tip-body {
+    max-height: 80vh; overflow-y: auto; padding: 14px;
+    border: 1px solid var(--border2);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+  }
+
+  /* anatomy legend: stack label above value so nothing wraps on narrow screens */
+  .anatomy-row > div:last-child { flex-direction: column; gap: 2px; }
+  .anatomy-row b { min-width: 0; }
+}
+
+/* ── floor switcher — vertical column, left side, vertically centered ── */
+.floor-switcher {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex; flex-direction: column; gap: 3px;
+  touch-action: none;
+}
+.floor-btn {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px; padding: 10px 4px; width: 54px; overflow: hidden;
+  background: var(--bg3); border: 1px solid var(--border2);
+  color: var(--text3); font-family: inherit; cursor: pointer;
+  transition: all .15s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.floor-btn:hover { border-color: var(--border); color: var(--text2); background: var(--bg4); }
+.floor-btn.active { background: var(--orange); border-color: var(--orange); color: var(--bg); }
+.floor-num { font-family: 'Courier Prime', monospace; font-size: 22px; font-weight: 700; line-height: 1; }
+.floor-name { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; text-align: center; line-height: 1.2; }
+
+/* ── info overlay ── */
+.room-sidebar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
   background: var(--bg3);
   border: 1px solid var(--border2);
-  aspect-ratio: 5 / 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 48px;
-  color: var(--muted);
+  border-top: 3px solid var(--orange);
+  z-index: 200;
+  transform: translateY(100%);
+  visibility: hidden;
+  transition: transform .2s ease, visibility 0s .2s;
+  pointer-events: none;
 }
-.map-placeholder .wip-note {
-  font-size: 14px;
-  color: var(--muted);
-  letter-spacing: 0.3px;
+.room-sidebar.open {
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform .2s ease, visibility 0s 0s;
 }
-@keyframes ellipsis {
-  0%   { content: ''; }
-  25%  { content: '.'; }
-  50%  { content: '..'; }
-  75%  { content: '...'; }
-  100% { content: ''; }
+@media (max-width: 560px) {
+  .room-sidebar.open {
+    max-height: 45vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
-.map-placeholder .loading::after {
-  content: '';
-  display: inline-block;
-  width: 1.5ch;
-  text-align: left;
-  animation: ellipsis 1.6s steps(1, end) infinite;
+@media (min-width: 561px) {
+  .room-sidebar {
+    top: 50%; bottom: auto; left: auto; right: 16px;
+    width: 300px;
+    transform: translate(calc(100% + 16px), -50%);
+  }
+  .room-sidebar.open { transform: translate(0, -50%); }
 }
-
+.sb-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 14px 14px 10px; border-bottom: 1px solid var(--border3);
+}
+#sb-name {
+  font-family: 'Courier Prime', monospace;
+  font-size: 20px; font-weight: 700;
+  color: var(--orange); letter-spacing: 1px; line-height: 1.2;
+}
+.sb-close {
+  background: none; border: 1px solid var(--border2); color: var(--muted);
+  cursor: pointer; padding: 4px 6px; font-size: 14px; flex-shrink: 0;
+  transition: all .15s; margin-left: 8px; margin-top: 2px;
+}
+.sb-close:hover { border-color: var(--border); color: var(--text2); }
+.sb-meta {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-bottom: 1px solid var(--border3);
+}
+.sb-cat { display: flex; align-items: center; gap: 6px; }
+.sb-cat i { font-size: 14px; }
+#sb-cat-label { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
+.sb-floor-label { margin-left: auto; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3); }
+#sb-desc { padding: 12px 14px; font-size: 13px; line-height: 1.75; color: var(--text2); margin: 0; border-bottom: 1px solid var(--border3); }
+.sb-link {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; text-decoration: none;
+  color: var(--orange); transition: color .15s;
+}
+.sb-link:hover { color: var(--text2); }
+.sb-link i { font-size: 14px; }
 </style>
 </head>
 <body>
@@ -225,12 +375,12 @@
       <img src="assets/compass.svg" width="30" height="30" alt="">
       <span class="nav-logo-text"><span>FFZG</span> <span>Kompas</span></span>
     </a>
-      <div class="nav-links">
-        <a href="/ffzg-kompas/karta" class="active" id="sub-map">Karta</a>
-        <a href="/ffzg-kompas/info" id="sub-info">Info</a>
-        <a href="/ffzg-kompas/tips" id="sub-tips">Savjeti</a>
-      </div>
-      <div class="nav-controls">
+    <div class="nav-links">
+      <a href="/ffzg-kompas/karta" class="active"><span class="lang-hr">Karta</span><span class="lang-en">Map</span></a>
+      <a href="/ffzg-kompas/info">Info</a>
+      <a href="/ffzg-kompas/tips"><span class="lang-hr">Savjeti</span><span class="lang-en">Tips</span></a>
+    </div>
+    <div class="nav-controls">
       <button class="nav-btn" id="btn-hr" onclick="KompasApp.setLang('hr')">HR</button>
       <button class="nav-btn" id="btn-en" onclick="KompasApp.setLang('en')">EN</button>
       <button class="nav-btn" id="btn-theme" onclick="KompasApp.toggleTheme()" aria-label="Toggle theme">
@@ -239,29 +389,29 @@
     </div>
   </div>
 
-  <!-- page head -->
-  <div class="pagehead" data-screen-label="02 Karta">
-    <div class="corner tl"></div><div class="corner tr"></div>
-    <div class="corner bl"></div><div class="corner br"></div>
-    <h1><span class="lang-hr">Karta zgrade</span><span class="lang-en">Building map</span></h1>
-    <div class="pagehead-sub"><span class="lang-hr">Jel Filozofski ima WC?</span><span class="lang-en">Does Filozofski have toilets?</span></div>
-  </div>
+  <!-- full-height map area -->
+  <div class="map-area">
 
-  <!-- search + anatomy -->
-  <div class="section" style="border-bottom: 0; flex: 0; display: flex; flex-direction: column; gap: 8px;">
-    <div class="search-wrap" style="margin-bottom: 0;">
-      <i class="ti ti-search"></i>
-      <input class="search-input" type="search" placeholder="Pretraži prostorije…" autocomplete="off" disabled />
-      <button class="search-clear"><i class="ti ti-x"></i></button>
-    </div>
-    <div class="tip-card" id="anatomy-card" style="border-left-width: 1px;">
-      <div class="tip-head" style="padding: 10px 14px;" onclick="const c=document.getElementById('anatomy-card'); c.classList.toggle('expanded'); this.querySelector('.chev i').className='ti '+(c.classList.contains('expanded')?'ti-minus':'ti-plus');">
-        <i class="ti ti-tag" style="font-size: 18px; color: var(--orange); flex-shrink: 0;"></i>
-        <span class="title"><span class="lang-hr">Što znače oznake na prostorijama? (npr. A212a)</span><span class="lang-en">How do classroom codes work? (e.g. A212a)</span></span>
-        <div class="chev"><i class="ti ti-plus"></i></div>
+    <!-- map canvas -->
+    <div id="map-container"><div id="map-viewport"></div></div>
+
+    <!-- floating top-left: search + anatomy -->
+    <div class="map-ui-tl">
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input class="search-input" type="search" id="search-input"
+          placeholder="Pretraži prostorije…" autocomplete="off" />
+        <button class="search-clear"><i class="ti ti-x"></i></button>
+        <ul id="search-dropdown"></ul>
       </div>
-      <div class="tip-body">
-        <div class="anatomy" style="margin-bottom: 4px;">
+      <div class="tip-card" id="anatomy-card">
+        <div class="tip-head" onclick="const c=document.getElementById('anatomy-card'); c.classList.toggle('expanded'); this.querySelector('.chev i').className='ti '+(c.classList.contains('expanded')?'ti-minus':'ti-plus');">
+          <i class="ti ti-tag" style="font-size: 16px; color: var(--orange); flex-shrink: 0;"></i>
+          <i class="ti ti-question-mark anatomy-hint"></i>
+          <span class="title"><span class="lang-hr">Što znače oznake prostorija?</span><span class="lang-en">How do room codes work?</span></span>
+          <div class="chev"><i class="ti ti-plus"></i></div>
+        </div>
+        <div class="tip-body">
           <div class="anatomy-code" aria-hidden="true">
             <span class="ch part-trakt">A</span>
             <span class="ch dash">–</span>
@@ -271,53 +421,80 @@
           </div>
           <div class="anatomy-legend">
             <div class="anatomy-row trakt">
-              <div class="mark"></div>
               <div class="glyph">A</div>
-              <div><b><span class="lang-hr">TRAKT </span><span class="lang-en">WING </span></b><span><span class="lang-hr">A, B, C, E, F (D su dvorane i uredi u prizemlju)</span><span class="lang-en">A, B, C, E, F (D are lecture halls and offices on the ground floor)</span></span></div>
+              <div><b><span class="lang-hr">TRAKT </span><span class="lang-en">WING </span></b><span><span class="lang-hr">A, B, C, E, F</span><span class="lang-en">A, B, C, E, F</span></span></div>
             </div>
             <div class="anatomy-row floor">
-              <div class="mark"></div>
               <div class="glyph">2</div>
-              <div><b><span class="lang-hr">KAT </span><span class="lang-en">FLOOR </span></b><span><span class="lang-hr">prva znamenka - 0, 1, 2 ili 3</span><span class="lang-en">first digit - 0, 1, 2 or 3</span></span></div>
+              <div><b><span class="lang-hr">KAT </span><span class="lang-en">FLOOR </span></b><span>0, 1, 2, 3</span></div>
             </div>
             <div class="anatomy-row room">
-              <div class="mark"></div>
               <div class="glyph">12</div>
-              <div><b><span class="lang-hr">SOBA </span><span class="lang-en">ROOM </span></b><span><span class="lang-hr">redni broj prostorije na katu</span><span class="lang-en">room number on the floor</span></span></div>
+              <div><b><span class="lang-hr">SOBA </span><span class="lang-en">ROOM </span></b><span><span class="lang-hr">broj prostorije</span><span class="lang-en">room number</span></span></div>
             </div>
             <div class="anatomy-row sub">
-              <div class="mark"></div>
               <div class="glyph">a</div>
-              <div><b><span class="lang-hr">POD-OZNAKA </span><span class="lang-en">SUB-LETTER </span></b><span><span class="lang-hr">a, b ili c ako je prostorija pregrađena u više manjih</span><span class="lang-en">a, b or c if the room was split into smaller ones</span></span></div>
+              <div><b><span class="lang-hr">POD-OZNAKA </span><span class="lang-en">SUB </span></b><span><span class="lang-hr">a/b/c ako je pregrađena</span><span class="lang-en">a/b/c if subdivided</span></span></div>
             </div>
+          </div>
+          <div class="anatomy-notes">
+            <ul>
+              <li><span class="lang-hr">D1–D7 nemaju standardnu oznaku</span><span class="lang-en">D1–D7 use no standard code</span></li>
+              <li><span class="lang-hr">F-1 i F-2 (FOND) su u žutoj zgradi prekoputa</span><span class="lang-en">F-1 and F-2 (FOND) are in the yellow building across the street</span></li>
+            </ul>
+            <hr>
+            <p><span class="lang-hr">Brojevi prostorija u A traktu počinju gore desno i rastu u smjeru kazaljke na satu.</span><span class="lang-en">A-wing room numbers start top-right and increase clockwise.</span></p>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- map placeholder -->
-  <div class="section">
-    <div class="map-placeholder">
-      <span class="loading">Loading</span>
-      <span class="wip-note">(jk, još je u izradi)</span>
+    <!-- floating top-right: floor switcher (top = highest floor) -->
+    <div class="floor-switcher">
+      <button class="floor-btn" data-floor="3">
+        <span class="floor-num">3</span>
+        <span class="floor-name lang-hr">3. kat</span><span class="floor-name lang-en">3rd</span>
+      </button>
+      <button class="floor-btn" data-floor="2">
+        <span class="floor-num">2</span>
+        <span class="floor-name lang-hr">2. kat</span><span class="floor-name lang-en">2nd</span>
+      </button>
+      <button class="floor-btn" data-floor="1">
+        <span class="floor-num">1</span>
+        <span class="floor-name lang-hr">1. kat</span><span class="floor-name lang-en">1st</span>
+      </button>
+      <button class="floor-btn active" data-floor="0">
+        <span class="floor-num">P</span>
+        <span class="floor-name lang-hr">Prizem.</span><span class="floor-name lang-en">Ground</span>
+      </button>
     </div>
-  </div>
 
-  <!-- footer (credits) -->
-  <div class="footer">
-    <div class="footer-credits">
-      <span class="ft-lbl" style="text-transform: none; font-size: 13px; letter-spacing: 0.5px; color: var(--text3);">Sve informacije su provjerene, <span style="white-space: nowrap">osim onih koje nisu.</span></span>
+    <!-- info overlay -->
+    <div class="room-sidebar" id="room-sidebar">
+      <div class="sb-header">
+        <span id="sb-name">—</span>
+        <button class="sb-close" id="sb-close"><i class="ti ti-x"></i></button>
+      </div>
+      <div class="sb-meta">
+        <span class="sb-cat">
+          <i id="sb-cat-icon" class="ti"></i>
+          <span id="sb-cat-label"></span>
+        </span>
+        <span class="sb-floor-label" id="sb-floor"></span>
+      </div>
+      <p id="sb-desc"></p>
+      <a class="sb-link" id="sb-link" target="_blank" rel="noopener" style="display:none">
+        <i class="ti ti-external-link"></i>
+        <span id="sb-link-text">Otvori web</span>
+      </a>
     </div>
-    <div class="footer-year">:^)</div>
-  </div>
 
+  </div><!-- .map-area -->
+
+</div><!-- .frame -->
 
 <script src="app.js"></script>
-<script>
-function applyLang (lang) {
-  document.documentElement.dataset.lang = lang;
-}
-</script>
+<script src="data.js"></script>
+<script src="karta.js"></script>
 </body>
 </html>

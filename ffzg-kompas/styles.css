@@ -30,6 +30,7 @@
   --cat-novac:    #b8bb26;
   --cat-zivot:    #fabd2f;
   --cat-pomoc:    #fb4934;
+  --teal:         #8ec07c;
   --pad:       22px;
   --max-narrow: 540px;
   --max-wide:   1180px;
@@ -61,6 +62,7 @@
   --cat-novac:    #79740e;
   --cat-zivot:    #b57614;
   --cat-pomoc:    #9d0006;
+  --teal:         #427b58;
 }
 
 html { color-scheme: dark; background: #1a1615; }
@@ -311,6 +313,11 @@ body.light-host::before {
   flex-shrink: 0;
   margin-left: auto;
 }
+
+/* ── bilingual toggle ── */
+.lang-en { display: none; }
+[data-lang="en"] .lang-hr { display: none; }
+[data-lang="en"] .lang-en { display: revert; }
 
 /* ── small utility ── */
 .tag {

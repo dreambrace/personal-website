@@ -204,9 +204,9 @@
       <span class="nav-logo-text"><span>FFZG</span> <span>Kompas</span></span>
     </a>
       <div class="nav-links">
-        <a href="/ffzg-kompas/karta" id="sub-map">Karta</a>
-        <a href="/ffzg-kompas/info" id="sub-info">Info</a>
-        <a href="/ffzg-kompas/tips" id="sub-tips">Savjeti</a>
+        <a href="/ffzg-kompas/karta"><span class="lang-hr">Karta</span><span class="lang-en">Map</span></a>
+        <a href="/ffzg-kompas/info">Info</a>
+        <a href="/ffzg-kompas/tips"><span class="lang-hr">Savjeti</span><span class="lang-en">Tips</span></a>
       </div>
       <div class="nav-controls">
       <button class="nav-btn active" id="btn-hr" onclick="KompasApp.setLang('hr')">HR</button>
@@ -385,7 +385,7 @@ function renderTips () {
     row.className = 'tip-row';
     row.style.setProperty('--cat-color', cat.color);
     row.innerHTML = `
-      <div class="tip-main" onclick="toggleTip(this)">
+      <div class="tip-main">
         <div class="tip-pill" style="color:${cat.color};">
           <i class="ti ${cat.icon}"></i>
           <span class="pill-label">${catLabel}</span>
@@ -398,15 +398,23 @@ function renderTips () {
         ${t.link ? ` <a href="${t.link}" target="_blank" rel="noopener">↗ ${t.link.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a>` : ''}
       </div>
     `;
+    row.addEventListener('click', e => { if (!e.target.closest('a')) toggleTip(row); });
     list.appendChild(row);
   });
 }
 
-function toggleTip (mainEl) {
-  const row = mainEl.parentElement;
+function toggleTip (row) {
   const isOpen = row.classList.contains('expanded');
   row.classList.toggle('expanded');
   row.querySelector('.tip-chevron i').className = isOpen ? 'ti ti-plus' : 'ti ti-minus';
+  if (!isOpen) {
+    const extra   = row.querySelector('.tip-extra');
+    const added   = extra.scrollHeight + 32; /* content + vertical padding */
+    const rowRect = row.getBoundingClientRect();
+    const overflow = rowRect.bottom + added - window.innerHeight;
+    if (overflow > 0)
+      window.scrollBy({ top: overflow + 16, behavior: 'smooth' });
+  }
 }
 
 /* initial render */

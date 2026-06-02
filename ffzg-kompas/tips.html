@@ -255,9 +255,9 @@
       <span class="nav-logo-text"><span>FFZG</span> <span>Kompas</span></span>
     </a>
       <div class="nav-links">
-        <a href="/ffzg-kompas/karta" id="sub-map">Karta</a>
-        <a href="/ffzg-kompas/info" id="sub-info">Info</a>
-        <a href="/ffzg-kompas/tips" class="active" id="sub-tips">Savjeti</a>
+        <a href="/ffzg-kompas/karta"><span class="lang-hr">Karta</span><span class="lang-en">Map</span></a>
+        <a href="/ffzg-kompas/info">Info</a>
+        <a href="/ffzg-kompas/tips" class="active"><span class="lang-hr">Savjeti</span><span class="lang-en">Tips</span></a>
       </div>
       <div class="nav-controls">
       <button class="nav-btn" id="btn-hr" onclick="KompasApp.setLang('hr')">HR</button>
@@ -473,10 +473,13 @@ function buildTipCard (tip, num, lang) {
 }
 
 function toggle (id) {
-  if (EXPANDED.has(id)) EXPANDED.delete(id);
-  else EXPANDED.add(id);
-  /* re-render so category toggle label updates if state changed */
+  const opening = !EXPANDED.has(id);
+  if (opening) EXPANDED.add(id); else EXPANDED.delete(id);
   renderTips();
+  if (opening) requestAnimationFrame(() => {
+    document.querySelector(`.tip-card[data-id="${id}"]`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
 }
 
 function toggleCategory (catKey) {

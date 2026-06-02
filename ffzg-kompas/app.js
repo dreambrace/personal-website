@@ -36,13 +36,8 @@
       const btnEn = document.getElementById('btn-en');
       if (btnHr) btnHr.classList.toggle('active', lang === 'hr');
       if (btnEn) btnEn.classList.toggle('active', lang === 'en');
-      /* common strings (subnav + footer) */
-      const s = window.KOMPAS_STRINGS?.[lang]; if (!s) return;
-      const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-      setText('sub-map',  s.nav.map);
-      setText('sub-info', s.nav.info);
-      setText('sub-tips', s.nav.tips);
-      setText('lbl-foot-credits', lang === 'hr' ? '// Autori' : '// Authors');
+      const el = document.getElementById('lbl-foot-credits');
+      if (el) el.textContent = lang === 'hr' ? '// Autori' : '// Authors';
     },
   };
 
