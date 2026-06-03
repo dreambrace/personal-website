@@ -253,6 +253,28 @@
 
   /* ── room selection ── */
 
+  function highlightLabels(els) {
+    viewport.querySelectorAll('#map-text .on-selected-room')
+      .forEach(el => el.classList.remove('on-selected-room'));
+    if (!els.length) return;
+    const svgRoot = viewport.querySelector('svg');
+    if (!svgRoot) return;
+    const geomEls = els.filter(el => typeof el.isPointInFill === 'function' && el.getScreenCTM());
+    if (!geomEls.length) return;
+    viewport.querySelectorAll('#map-text text').forEach(t => {
+      const tr = t.getBoundingClientRect();
+      const cx = (tr.left + tr.right) / 2, cy = (tr.top + tr.bottom) / 2;
+      const hits = geomEls.some(el => {
+        try {
+          const pt = svgRoot.createSVGPoint();
+          pt.x = cx; pt.y = cy;
+          return el.isPointInFill(pt.matrixTransform(el.getScreenCTM().inverse()));
+        } catch { return false; }
+      });
+      if (hits) t.classList.add('on-selected-room');
+    });
+  }
+
   function selectRoom(id) {
     viewport.querySelectorAll('.map-room.selected')
       .forEach(el => el.classList.remove('selected'));
@@ -260,16 +282,19 @@
     const room = KOMPAS_ROOMS.find(r => r.id === id);
     const highlightId = room?.tractId || id;
     const ids  = (room && room.group) ? room.group : [highlightId];
+    const selectedEls = [];
     ids.forEach(rid => {
       const el = findRoomEl(rid);
-      if (el) { el.classList.add('selected'); el.parentNode.appendChild(el); }
+      if (el) { el.classList.add('selected'); if (el.parentNode.id === 'rooms') el.parentNode.appendChild(el); selectedEls.push(el); }
     });
+    highlightLabels(selectedEls);
     if (room) openSidebar(room);
   }
 
   function deselectRoom() {
     viewport.querySelectorAll('.map-room.selected')
       .forEach(el => el.classList.remove('selected'));
+    highlightLabels([]);
     selectedRoomId = null;
     closeSidebar();
   }
@@ -382,8 +407,10 @@
   }
 
   function updateHighlight() {
-    searchDropdown.querySelectorAll('.sr-item').forEach((li, i) =>
-      li.classList.toggle('pre-selected', i === highlightIdx));
+    searchDropdown.querySelectorAll('.sr-item').forEach((li, i) => {
+      li.classList.toggle('pre-selected', i === highlightIdx);
+      if (i === highlightIdx) li.scrollIntoView({ block: 'nearest' });
+    });
   }
 
   function hideDropdown() {

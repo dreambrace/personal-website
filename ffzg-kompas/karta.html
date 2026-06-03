@@ -64,20 +64,22 @@ html, body { overflow: hidden; overscroll-behavior: none; }
 .floor-svg #image-anchor { fill: none !important; stroke: none !important; pointer-events: none; }
 .floor-svg #map-text { pointer-events: none; }
 .floor-svg #map-text text, .floor-svg #map-text tspan { fill: var(--text2) !important; stroke: none !important; }
+.floor-svg #map-text text.on-selected-room,
+.floor-svg #map-text text.on-selected-room tspan { fill: var(--bg) !important; }
 .floor-svg #hallway  { fill: var(--bg5) !important; pointer-events: none; }
-.floor-svg #walls    { fill: none !important; stroke: var(--text3) !important; }
-.floor-svg #stairs   { fill: none !important; stroke: var(--text3) !important; }
-.floor-svg #arrows-top, .floor-svg #arrows-bottom { fill: var(--muted) !important; stroke: none !important; }
+.floor-svg #walls    { fill: none !important; stroke: var(--text3) !important; pointer-events: none; }
+.floor-svg #stairs   { fill: none !important; stroke: var(--text3) !important; pointer-events: none; }
+.floor-svg #arrows-top, .floor-svg #arrows-bottom { fill: var(--muted) !important; stroke: none !important; pointer-events: none; }
 .floor-svg #arrow-enter { fill: color-mix(in srgb, var(--cat-pomoc) 60%, var(--bg2)) !important; stroke: none !important; }
 
 /* rooms coloured by tract / kind — classes added by karta.js */
-.floor-svg .tract-a { fill: color-mix(in srgb, var(--red)         30%, var(--bg2)) !important; stroke: var(--red)         !important; }
-.floor-svg .tract-b { fill: color-mix(in srgb, var(--blue)        30%, var(--bg2)) !important; stroke: var(--blue)        !important; }
-.floor-svg .tract-c { fill: color-mix(in srgb, var(--green)       30%, var(--bg2)) !important; stroke: var(--green)       !important; }
-.floor-svg .util    { fill: color-mix(in srgb, var(--cat-sustavi) 30%, var(--bg2)) !important; stroke: var(--cat-sustavi) !important; }
-.floor-svg .service { fill: color-mix(in srgb, var(--teal) 30%, var(--bg2)) !important; stroke: var(--teal) !important; }
+.floor-svg .tract-a { fill: color-mix(in srgb, var(--red)         30%, var(--bg2)) !important; stroke: none !important; }
+.floor-svg .tract-b { fill: color-mix(in srgb, var(--blue)        30%, var(--bg2)) !important; stroke: none !important; }
+.floor-svg .tract-c { fill: color-mix(in srgb, var(--green)       30%, var(--bg2)) !important; stroke: none !important; }
+.floor-svg .util    { fill: color-mix(in srgb, var(--cat-sustavi) 30%, var(--bg2)) !important; stroke: none !important; }
+.floor-svg .service { fill: color-mix(in srgb, var(--teal) 30%, var(--bg2)) !important; stroke: none !important; }
 /* mystery rooms: neutral, non-interactive */
-.floor-svg .room-mystery { fill: color-mix(in srgb, var(--muted) 60%, var(--bg2)) !important; stroke: var(--border) !important; pointer-events: none; }
+.floor-svg .room-mystery { fill: color-mix(in srgb, var(--muted) 60%, var(--bg2)) !important; stroke: none !important; pointer-events: none; }
 
 /* interactive (has data) — pointer + brighter hover */
 .floor-svg .map-room { cursor: pointer; transition: fill .15s, stroke .15s; }
@@ -94,7 +96,7 @@ html, body { overflow: hidden; overscroll-behavior: none; }
 .floor-svg .map-room.selected,
 .floor-svg .map-room.selected:hover {
   fill: var(--orange) !important;
-  stroke: var(--orange) !important;
+  stroke: none !important;
   animation: room-pulse 1s ease-in-out infinite;
 }
 
@@ -211,13 +213,15 @@ html, body { overflow: hidden; overscroll-behavior: none; }
 .anatomy-notes {
   margin-top: 12px; padding-top: 10px;
   border-top: 1px solid var(--border3);
-  font-size: 11.5px; line-height: 1.6; color: var(--text3);
+  font-size: 12.5px; line-height: 1.6; color: var(--text3);
 }
 .anatomy-notes p { margin: 0; }
+.anatomy-notes .section-title { color: var(--text); text-transform: uppercase; letter-spacing: 1px; font-size: 12px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.anatomy-notes .section-title .ast { font-family: 'Courier Prime', monospace; font-size: 18px; color: var(--orange); line-height: 1; width: 16px; text-align: center; flex-shrink: 0; }
 .anatomy-notes hr { border: none; border-top: 1px solid var(--border3); margin: 8px 0; }
 .anatomy-notes ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 3px; }
 .anatomy-notes li { display: flex; gap: 6px; }
-.anatomy-notes li::before { content: "•"; color: var(--orange); flex-shrink: 0; }
+.anatomy-notes li::before { content: "•"; color: var(--orange); flex-shrink: 0; width: 16px; text-align: center; }
 
 /* ── anatomy hint icon — only visible on mobile ── */
 .anatomy-hint { display: none; }
@@ -438,12 +442,13 @@ html, body { overflow: hidden; overscroll-behavior: none; }
             </div>
           </div>
           <div class="anatomy-notes">
-            <ul>
-              <li><span class="lang-hr">D1–D7 nemaju standardnu oznaku</span><span class="lang-en">D1–D7 use no standard code</span></li>
-              <li><span class="lang-hr">F-1 i F-2 (FOND) su u žutoj zgradi prekoputa</span><span class="lang-en">F-1 and F-2 (FOND) are in the yellow building across the street</span></li>
-            </ul>
-            <hr>
             <p><span class="lang-hr">Brojevi prostorija u A traktu počinju gore desno i rastu u smjeru kazaljke na satu.</span><span class="lang-en">A-wing room numbers start top-right and increase clockwise.</span></p>
+            <hr>
+            <p class="section-title"><span class="ast">*</span><span class="lang-hr">Iznimke</span><span class="lang-en">Exceptions</span></p>
+            <ul>
+              <li><span class="lang-hr">D1-D7 = dvorane, D01-D08 = uredi</span><span class="lang-en">D1-D7 = halls; D01-D08 = offices</span></li>
+              <li><span class="lang-hr">F-3xx = F-trakt na 3. katu,<br>sve ostale F-oznake = žuta zgrada Fonda preko puta faksa</span><span class="lang-en">F-3xx = F-wing,<br>other F codes = yellow Fond building across the street</span></li>
+            </ul>
           </div>
         </div>
       </div>
