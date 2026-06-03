@@ -91,7 +91,7 @@
 }
 .tip-row:last-child { border-bottom: 0; }
 .tip-row:hover    { background: var(--bg4); }
-.tip-row.expanded { background: var(--bg3); border-left: 2px solid var(--orange); }
+.tip-row.expanded { background: var(--bg3); }
 
 .tip-main {
   display: grid;
@@ -183,7 +183,7 @@
 
 @media (max-width: 479px) {
   .tip-row { border-left: 3px solid var(--cat-color, var(--border2)); }
-  .tip-row.expanded { border-left-color: var(--cat-color, var(--border2)); }
+  .tip-row.expanded { border-left: 3px solid var(--cat-color, var(--border2)); }
   .tip-pill { border: none; padding: 0 10px 0 0; gap: 0; background: none; }
   .tip-pill i { font-size: 18px; }
   .pill-label { display: none; }
