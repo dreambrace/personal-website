@@ -195,7 +195,6 @@
     viewport.querySelector('svg')?.classList.add('floor-svg');
 
     bindRoomEvents();
-    resetTransform();
 
     if (selectedRoomId) {
       const room = KOMPAS_ROOMS.find(r => r.id === selectedRoomId);

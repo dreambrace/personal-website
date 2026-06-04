@@ -68,6 +68,7 @@ html, body { overflow: hidden; overscroll-behavior: none; }
 .floor-svg #map-text text.on-selected-room tspan { fill: var(--bg) !important; }
 .floor-svg #hallway  { fill: var(--bg5) !important; pointer-events: none; }
 .floor-svg #walls    { fill: none !important; stroke: var(--text3) !important; pointer-events: none; }
+:root:not(.light) .floor-svg #walls { stroke: var(--border) !important; }
 .floor-svg #stairs   { fill: none !important; stroke: var(--text3) !important; pointer-events: none; }
 .floor-svg #arrows-top, .floor-svg #arrows-bottom { fill: var(--muted) !important; stroke: none !important; pointer-events: none; }
 .floor-svg #arrow-enter { fill: color-mix(in srgb, var(--cat-pomoc) 60%, var(--bg2)) !important; stroke: none !important; }
@@ -80,6 +81,7 @@ html, body { overflow: hidden; overscroll-behavior: none; }
 .floor-svg .service { fill: color-mix(in srgb, var(--teal) 30%, var(--bg2)) !important; stroke: none !important; }
 /* mystery rooms: neutral, non-interactive */
 .floor-svg .room-mystery { fill: color-mix(in srgb, var(--muted) 60%, var(--bg2)) !important; stroke: none !important; pointer-events: none; }
+:root:not(.light) .floor-svg .room-mystery { fill: var(--bg4) !important; }
 
 /* interactive (has data) — pointer + brighter hover */
 .floor-svg .map-room { cursor: pointer; transition: fill .15s, stroke .15s; }
