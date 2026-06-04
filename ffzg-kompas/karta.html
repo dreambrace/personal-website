@@ -63,9 +63,19 @@ html, body { overflow: hidden; overscroll-behavior: none; }
    element's inline style attribute, which otherwise wins over the sheet. */
 .floor-svg #image-anchor { fill: none !important; stroke: none !important; pointer-events: none; }
 .floor-svg #map-text { pointer-events: none; }
-.floor-svg #map-text text, .floor-svg #map-text tspan { fill: var(--text2) !important; stroke: none !important; }
+.floor-svg #map-text text, .floor-svg #map-text tspan {
+  fill: var(--text2) !important;
+  stroke: var(--bg2) !important;
+  stroke-width: 0.4 !important;
+  paint-order: stroke fill !important;
+  stroke-opacity: 0.7 !important;
+}
 .floor-svg #map-text text.on-selected-room,
-.floor-svg #map-text text.on-selected-room tspan { fill: var(--bg) !important; }
+.floor-svg #map-text text.on-selected-room tspan {
+  fill: var(--bg) !important;
+  stroke: var(--bg2) !important;
+  stroke-opacity: 0.7 !important;
+}
 .floor-svg #hallway  { fill: var(--bg5) !important; pointer-events: none; }
 .floor-svg #walls    { fill: none !important; stroke: var(--text3) !important; pointer-events: none; }
 :root:not(.light) .floor-svg #walls { stroke: var(--border) !important; }
